@@ -3,10 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+        <link rel="stylesheet" href="assets/css/main.css?id=1236" />
+		    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
     </head>
     <body>        
         <table class="default">
@@ -15,6 +14,7 @@
                 <th class="tg-0pky">NOM</th>
                 <th class="tg-0pky">PUBLICATION</th>
                 <th class="tg-0pky">SYNOPSIS</th>
+                <th class="tg-0pky">AVIS</th>
               </tr>
             </thead>
             <tbody>
@@ -23,9 +23,17 @@
                 <td>{{title}}</td>
                 <td>{{date_published}}</td>
                 <td>{{content}}</td>
+                <td>
+                  <button type="button" class="thumb-button">
+                    <i class="icon solid fa-thumbs-up"></i>
+                  </button>
+                </td>
               </tr>
                 {% endfor %}
             </tbody>
             </table>
+
+            <!--scripts-->
+            <script src="assets/js/thumbUp.js"></script>
     </body>
 </html>
