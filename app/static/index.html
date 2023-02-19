@@ -58,8 +58,6 @@
 										const data = {
 											synopsis: form.querySelector("#synopsis").value,
 										}
-
-										console.log(data)
 										
 										// Définition de la requête POST
 										const response = await fetch(
@@ -73,12 +71,8 @@
 											}
 											)
 
-										console.log(response)
-											
 										// récupération du résultat de la requête
 										const result = await response.text() // read response body as text
-										
-										console.log(result)
 
 										// écriture du résultat dans la div avec l'ID "result"
 										document.querySelector("#result").innerHTML = result
