@@ -1,16 +1,12 @@
 from fastapi import FastAPI, Form, Request
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
-from jinja2 import Environment, FileSystemLoader
 from fastapi.templating import Jinja2Templates
-from pydantic import BaseModel
 
 import sqlalchemy.orm as _orm
 import fastapi as _fastapi
 import schemas as _schemas
 import services as _services
-import database as _database
 
 ########## BROUILLON ##########
 
@@ -60,14 +56,21 @@ async def submit(
     # _services.create_query(db=db, query=input)
 
     similars = _services.find_similar(db=db, input=input.synopsis)
-
-    return templates.TemplateResponse(
-         "result_table.html.jinja", 
-         {
-           "request": request,
-           "similars": similars,
-          }
-    )
+    accept_header = request.headers.get('Accept')
+    
+    # Pour l'interface graphique
+    if "text/html" in accept_header:
+        return templates.TemplateResponse(
+            "result_table.html.jinja", 
+            {
+            "request": request,
+            "similars": similars,
+            }
+        )
+        
+    # Requête depuis le terminal
+    elif "application/json" in accept_header:
+        return similars
     
 @app.post("/synopsis/", response_model = _schemas.DBSynopsis)
 def create_synopsis(
