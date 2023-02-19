@@ -1684,15 +1684,19 @@ input, select, textarea {
 
 	.thumb-button {
 		background-color: white;
-		border: 1px solid #ccc;
+		border: none;
 		border-radius: 5px;
 		padding: 8px;
 		cursor: pointer;
 		}
 		
 		.thumb-button .fa-thumbs-up {
-		color: green;
+		color: gray;
 		}
+		
+		.thumb-button .fa-thumbs-down {
+			color: gray;
+			}
 		
 		.thumb-button.active .fa-thumbs-up {
 		color: blue;

@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="assets/css/main.css?id=1236" />
+        <link rel="stylesheet" href="assets/css/main.css?id=5454" />
 		    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
     </head>
     <body>        
@@ -23,17 +23,23 @@
                 <td>{{title}}</td>
                 <td>{{date_published}}</td>
                 <td>{{content}}</td>
-                <td>
+
+                <!-- Pour donner son avis -->
+                <td> 
                   <button type="button" class="thumb-button">
                     <i class="icon solid fa-thumbs-up"></i>
                   </button>
+                  <button type="button" class="thumb-button">
+                    <i class="icon solid fa-thumbs-down"></i>
+                  </button>
                 </td>
+
               </tr>
                 {% endfor %}
             </tbody>
             </table>
 
-            <!--scripts-->
-            <script src="assets/js/thumbUp.js"></script>
+            <!-- Scripts -->
+            <script src="assets/js/thumbUp.js"></script> <!-- Script pour la prise en compte des avis des utilisateurs -->
     </body>
 </html>
