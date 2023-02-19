@@ -1,6 +1,15 @@
-const btn = document.getElementById('thumbUpButton');
+function thumbUp() {
+  console.log("bouton thumb up cliqué");
+  var thumbDownButton = document.getElementById("thumb-down-button");
+  var thumbUpButton = document.getElementById("thumb-up-button");
+  thumbDownButton.classList.remove("active");
+  thumbUpButton.classList.add("active");
+}
 
-btn.addEventListener('click', function onClick() {
-  btn.style.backgroundColor = 'salmon';
-  btn.style.color = 'white';
-});
+function thumbDown(){
+  console.log("bouton thumb down cliqué")
+  var thumbDownButton = document.getElementById("thumb-down-button");
+  var thumbUpButton = document.getElementById("thumb-up-button");
+  thumbUpButton.classList.remove("active");
+  thumbDownButton.classList.add("active");
+}
