@@ -49,4 +49,4 @@ def find_similar(
     db: _orm.Session,
     input: str):
     
-    return db.query(_models.Synopsis.title, _models.Synopsis.date_published, _models.Synopsis.content).where(_models.Synopsis.content.contains(input)).all()
+    return db.query(_models.Synopsis.title, _models.Synopsis.date_published, _models.Synopsis.content).where(_models.Synopsis.content.contains(input)).limit(5).all()
