@@ -20,16 +20,16 @@
             <tbody>
                 {% for (title, date_published, content) in similars %}
               <tr>
-                <td>{{title}}</td>
-                <td>{{date_published}}</td>
-                <td>{{content}}</td>
+                <td id="title-result-{{loop.index}}">{{title}}</td>
+                <td id="date-published-{{loop.index}}">{{date_published}}</td>
+                <td id="content-{{loop.index}}">{{content}}</td>
 
                 <!-- Pour donner son avis -->
                 <td> 
-                  <button type="button" class="thumb-button" id="thumb-up-button" onclick="thumbUp()">
+                  <button type="button" class="thumb-button" id="thumb-up-button-result-{{loop.index}}" onclick="thumbUp()">
                     <i class="icon solid fa-thumbs-up"></i>
                   </button>
-                  <button type="button" class="thumb-button" id="thumb-down-button" onclick="thumbDown()">
+                  <button type="button" class="thumb-button" id="thumb-down-button-result-{{loop.index}}" onclick="thumbDown()">
                     <i class="icon solid fa-thumbs-down"></i>
                   </button>
                 </td>
