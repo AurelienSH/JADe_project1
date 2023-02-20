@@ -47,28 +47,36 @@ async def submit(
     request: Request, 
     input: _schemas.QueryCreate,
     db: _orm.Session = _fastapi.Depends(_services.get_db)):
-    """Récupère le message envoyé par le formulaire et le réécrit en dessous du formulaire pour être sûre que le lien entre l'API et le front fonctionne
+    """Récupère la requête envoyée par le formulaire,
+    le réécrit en dessous du formulaire et renvoie toutes les oeuvres
+    qui contiennent les mots de la requête sous la forme d'un tableau
+    avec : le nom de l'oeuvre, la date de publication, le type d'oeuvre
+    (film, série...). 
     
-    Utilise le template Jinja `submit_success.html.jinja`.
+    Utilise le template Jinja `submit_success.html.jinja` pour écrire
+    le tableau des résultats.
     """
     
     # Enregistrement de la requête dans la BDD
     # _services.create_query(db=db, query=input)
 
+    # Liste des oeuvres similaires avec quelques métadonnées
     similars = _services.find_similar(db=db, input=input.synopsis)
+    
     accept_header = request.headers.get('Accept')
     
-    # Pour l'interface graphique
+    # Résultat pour l'interface graphique
     if "text/html" in accept_header:
         return templates.TemplateResponse(
             "result_table.html.jinja", 
             {
             "request": request,
+            "input_user": input.synopsis, # le synopsis écrit par l'utilisateur
             "similars": similars,
             }
         )
         
-    # Requête depuis le terminal
+    # Résultat pour une requête depuis le terminal
     elif "application/json" in accept_header:
         return similars
     

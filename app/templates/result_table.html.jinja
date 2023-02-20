@@ -7,7 +7,13 @@
         <link rel="stylesheet" href="assets/css/main.css?id=1882" />
 		    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
       </head>
-    <body>        
+    <body>
+
+        <!-- Requête de l'utilisateur -->
+        <blockquote id="input_user">
+          {{input_user}}
+        </blockquote>    
+        
         <table class="default">
             <thead>
               <tr>
@@ -23,7 +29,7 @@
               <tr>
                 <td row_number="{{loop.index}}" id="title-result-{{loop.index}}">{{title}}</td>
                 <td row_number="{{loop.index}}" id="type-result-{{loop.index}}">{{type}}</td>
-                <td row_number="{{loop.index}}" id="date-published-{{loop.index}}">{{date_published}}</td>
+                <td row_number="{{loop.index}}" id="date-published-result-{{loop.index}}">{{date_published}}</td>
                 <td row_number="{{loop.index}}" id="content-{{loop.index}}">{{content}}</td>
 
                 <!-- Pour donner son avis -->

@@ -20,15 +20,15 @@ function thumbUp(button_id) {
   // Ajout du synopsis à la BDD
 
   var data =  {
-    "title": document.getElementById(`title-result-${row_number}`),
-    "date_published": document.getElementById(`date_published-result-${row_number}`),
-    "type": document.getElementById(`type-result-${row_number}`),
-    "content": 
+    "title": document.getElementById(`title-result-${row_number}`).innerHTML,
+    "date_published": document.getElementById(`date-published-result-${row_number}`).innerHTML,
+    "type": document.getElementById(`type-result-${row_number}`).innerHTML,
+    "content": document.getElementById("input_user").innerHTML
   }
-  
 
-  // Définition de la requête POST
-  const response = fetch(
+  // Requête POST pour ajouter la requête comme synopsis de l'oeuvre
+  // à laquelle il a mis un thumb-up
+  fetch(
     "http://127.0.0.1:8000/synopsis", // l'url de notre API
     {
         method: "POST",
@@ -39,9 +39,6 @@ function thumbUp(button_id) {
         body: JSON.stringify(data)
     }
     )
-
-  // récupération du résultat de la requête
-  const result = await response.text() // read response body as text
 }
 
 function thumbDown(button_id){
