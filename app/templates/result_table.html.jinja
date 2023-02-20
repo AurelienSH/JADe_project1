@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="assets/css/main.css?id=48528" />
+        <link rel="stylesheet" href="assets/css/main.css?id=1882" />
 		    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
       </head>
     <body>        
@@ -12,15 +12,17 @@
             <thead>
               <tr>
                 <th class="tg-0pky">NOM</th>
+                <th class="tg-0pky">TYPE</th>
                 <th class="tg-0pky">PUBLICATION</th>
                 <th class="tg-0pky">SYNOPSIS</th>
                 <th class="tg-0pky">AVIS</th>
               </tr>
             </thead>
             <tbody>
-                {% for (title, date_published, content) in similars %}
+                {% for (title, type, date_published, content) in similars %}
               <tr>
                 <td id="title-result-{{loop.index}}">{{title}}</td>
+                <td id="type-result-{{loop.index}}">{{type}}</td>
                 <td id="date-published-{{loop.index}}">{{date_published}}</td>
                 <td id="content-{{loop.index}}">{{content}}</td>
 
