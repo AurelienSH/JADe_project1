@@ -16,6 +16,32 @@ function thumbUp(button_id) {
   */
   row_thumb_down_button.classList.remove("active");
   thumb_up_button_clicked.classList.add("active");
+
+  // Ajout du synopsis à la BDD
+
+  var data =  {
+    "title": document.getElementById(`title-result-${row_number}`),
+    "date_published": document.getElementById(`date_published-result-${row_number}`),
+    "type": document.getElementById(`type-result-${row_number}`),
+    "content": 
+  }
+  
+
+  // Définition de la requête POST
+  const response = fetch(
+    "http://127.0.0.1:8000/synopsis", // l'url de notre API
+    {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "text/html"
+        },
+        body: JSON.stringify(data)
+    }
+    )
+
+  // récupération du résultat de la requête
+  const result = await response.text() // read response body as text
 }
 
 function thumbDown(button_id){
