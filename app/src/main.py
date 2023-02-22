@@ -42,8 +42,8 @@ app.add_middleware(
 app.mount("/front", StaticFiles(directory="../static"), name="front")
 templates = Jinja2Templates(directory="../templates")
 
-@app.post("/submit")
-async def submit(
+@app.post("/similar-works/")
+async def get_similar_works(
     request: Request, 
     input: _schemas.QueryCreate,
     db: _orm.Session = _fastapi.Depends(_services.get_db)):
@@ -91,7 +91,7 @@ def create_synopsis(
     Args:
     
     - `synopsis` (`_schemas.SynopsisCreate`): Le synopsis qu'on veut ajouter à note database (le titre de l'oeuvre, la date de publication, le type de l'oeuvre et le contenu du synopsis)
-    - `db` (`_orm.Session`, optional): la session pour accéder à la database. Par défaut : _fastapi.Depends(_services.get_db).
+    - `db` (`_orm.Session`, optional): la session pour accéder à la database. Par défaut : `_fastapi.Depends(_services.get_db)`.
 
     Returns:
     
