@@ -98,3 +98,12 @@ def create_synopsis(
     - (`_schemas.DBSynopsis`): Le synopsis créé dans la database, avec un `id` unique assigné automatiquement par la database.
     """
     return _services.create_synopsis(db = db, synopsis = synopsis)
+
+@app.delete("/synopsis/")
+def delete_synopsis(
+    synopsis_to_delete: _schemas.SynopsisCreate,
+    db: _orm.Session=_fastapi.Depends(_services.get_db)
+):
+    """Supprimer un synopsis de la BDD."""
+    return _services.delete_synopsis(synopsis_to_delete=synopsis_to_delete, db=db)
+    
