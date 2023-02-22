@@ -17,13 +17,13 @@ function thumbUp(button_id) {
   row_thumb_down_button.classList.remove("active");
   thumb_up_button_clicked.classList.add("active");
 
-  // Ajout du synopsis à la BDD
+  // Récupération des valeurs
 
   var data =  {
-    "title": document.getElementById(`title-result-${row_number}`).innerHTML,
-    "date_published": document.getElementById(`date-published-result-${row_number}`).innerHTML,
-    "type": document.getElementById(`type-result-${row_number}`).innerHTML,
-    "content": document.getElementById("input_user").innerHTML
+    "title": document.getElementById(`title-result-${row_number}`).innerText,
+    "date_published": document.getElementById(`date-published-result-${row_number}`).innerText,
+    "type": document.getElementById(`type-result-${row_number}`).innerText,
+    "content": document.getElementById("input_user").innerText
   }
 
   // Requête POST pour ajouter la requête comme synopsis de l'oeuvre
@@ -39,6 +39,8 @@ function thumbUp(button_id) {
         body: JSON.stringify(data)
     }
     )
+
+
 }
 
 function thumbDown(button_id){
@@ -59,4 +61,25 @@ function thumbDown(button_id){
   */
   row_thumb_up_button.classList.remove("active");
   thumb_down_button_clicked.classList.add("active");
+
+  // Récupération des valeurs
+  var data =  {
+    "title": document.getElementById(`title-result-${row_number}`).innerText,
+    "date_published": document.getElementById(`date-published-result-${row_number}`).innerText,
+    "type": document.getElementById(`type-result-${row_number}`).innerText,
+    "content": document.getElementById("input_user").innerText
+  }
+
+  // Requête DELETE pour supprimer le synopsis écrit par l'utilisateur de la BDD
+  // pour l'oeuvre sélectionné, si jamais il avait mis un thumb-up avant
+  fetch(
+    "http://127.0.0.1:8000/synopsis", // l'url de notre API
+    {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data)
+    }
+    )
 }

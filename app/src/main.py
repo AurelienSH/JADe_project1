@@ -36,7 +36,7 @@ origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_methods=["POST"],
+    allow_methods=["POST", "DELETE"],
 )
 
 app.mount("/front", StaticFiles(directory="../static"), name="front")
