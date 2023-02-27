@@ -23,12 +23,12 @@
               </tr>
             </thead>
             <tbody>
-                {% for (title, type, date_published, content) in similars %}
+                {% for oeuvre in similars %}
               <tr>
-                <td row_number="{{loop.index}}" id="title-result-{{loop.index}}">{{title}}</td>
-                <td row_number="{{loop.index}}" id="type-result-{{loop.index}}">{{type}}</td>
-                <td row_number="{{loop.index}}" id="date-published-result-{{loop.index}}">{{date_published}}</td>
-                <td row_number="{{loop.index}}" id="content-{{loop.index}}">{{content}}</td>
+                <td row_number="{{loop.index}}" id="title-result-{{loop.index}}">{{oeuvre["title"]}}</td>
+                <td row_number="{{loop.index}}" id="type-result-{{loop.index}}">{{oeuvre["type"]}}</td>
+                <td row_number="{{loop.index}}" id="date-published-result-{{loop.index}}">{{oeuvre["date_published"]}}</td>
+                <td row_number="{{loop.index}}" id="content-{{loop.index}}">{{oeuvre["content"]}}</td>
 
                 <!-- Pour donner son avis -->
                 <td> 
