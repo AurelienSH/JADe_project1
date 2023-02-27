@@ -9,7 +9,6 @@ from sqlalchemy import and_
 
 from typing import List, Tuple
 import pickle
-from collections import namedtuple
 
 import scripts.sentence_similarity as _sentence_similarity
 
