@@ -50,13 +50,15 @@ templates = Jinja2Templates(directory="../templates")
 
 ################################################################################################
 #                                                                                              #
-#                                  VERSION 1 : SIMILARITE BASIQUE                              #
+#                                  VERSION 0 : Renvoyer oeuvres                                #
+#                                  qui contiennent le mot de la requête                        #
+#                                   dans leur synopsis                                         #
 #                                                                                              #
 ################################################################################################
 
 
 @v0.post("/similar-works/")
-async def get_similar_works(
+async def find_synopsis_containing_word(
     request: Request, 
     input: _schemas.QueryCreate,
     db: _orm.Session = _fastapi.Depends(_services.get_db)):
@@ -74,7 +76,7 @@ async def get_similar_works(
     # _services.create_query(db=db, query=input)
 
     # Liste des oeuvres similaires avec quelques métadonnées
-    similars = _services.find_similar(db=db, input=input.synopsis)
+    similars = _services.find_synopsis_containing_word(db=db, input=input.synopsis)
     
     accept_header = request.headers.get('Accept')
     
@@ -124,7 +126,7 @@ def delete_synopsis(
 
 ################################################################################################
 #                                                                                              #
-#                                  VERSION 2 : FINE-TUNING                                     #
+#                                  VERSION 1 : SENTENCE SIMILARITY                             #
 #                                                                                              #
 ################################################################################################
 
@@ -133,4 +135,7 @@ async def get_similar_works_FT(
     request: Request, 
     input: _schemas.QueryCreate,
     db: _orm.Session = _fastapi.Depends(_services.get_db)):
+    
+    
+    
     return {"content": "prout"}

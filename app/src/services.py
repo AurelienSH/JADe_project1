@@ -18,7 +18,7 @@ def create_database():
     """
     return _database.Base.metadata.create_all(bind = _database.engine)
 
-def get_db() -> _orm.Session:
+def get_db() -> _orm.Session: # type: ignore    
     """
     Cette fonction retourne une session active pour accéder à la BDD.
     La session sera fermée automatiquement.
@@ -48,7 +48,7 @@ def create_query(
     db.refresh(db_query)
     return db_query
 
-def find_similar(
+def find_synopsis_containing_word(
     db: _orm.Session,
     input: str):
     
