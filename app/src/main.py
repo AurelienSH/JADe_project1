@@ -27,8 +27,8 @@ import services as _services
 ###############################
 
 app = FastAPI()
+v0 = FastAPI()
 v1 = FastAPI()
-v2 = FastAPI()
 
 # Création de la database
 _services.create_database()
@@ -42,8 +42,8 @@ app.add_middleware(
 )
 
 app.mount("/front", StaticFiles(directory="../static"), name="front")
+app.mount("/api/v0", v0)
 app.mount("/api/v1", v1)
-app.mount("/api/v2", v2)
 
 templates = Jinja2Templates(directory="../templates")
 
@@ -55,7 +55,7 @@ templates = Jinja2Templates(directory="../templates")
 ################################################################################################
 
 
-@v1.post("/similar-works/")
+@v0.post("/similar-works/")
 async def get_similar_works(
     request: Request, 
     input: _schemas.QueryCreate,
@@ -93,7 +93,7 @@ async def get_similar_works(
     elif "application/json" in accept_header: # type: ignore        
         return similars
     
-@v1.post("/synopsis/", response_model = _schemas.DBSynopsis)
+@v0.post("/synopsis/", response_model = _schemas.DBSynopsis)
 def create_synopsis(
     synopsis: _schemas.SynopsisCreate, 
     db: _orm.Session = _fastapi.Depends(_services.get_db)
@@ -112,7 +112,7 @@ def create_synopsis(
     """
     return _services.create_synopsis(db = db, synopsis = synopsis)
 
-@v1.delete("/synopsis/")
+@v0.delete("/synopsis/")
 def delete_synopsis(
     synopsis_to_delete: _schemas.SynopsisCreate,
     db: _orm.Session=_fastapi.Depends(_services.get_db)
@@ -128,7 +128,7 @@ def delete_synopsis(
 #                                                                                              #
 ################################################################################################
 
-@v2.post("/similar-works/")
+@v1.post("/similar-works/")
 async def get_similar_works_FT(
     request: Request, 
     input: _schemas.QueryCreate,
