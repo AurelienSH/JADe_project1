@@ -8,6 +8,8 @@ import fastapi as _fastapi
 import schemas as _schemas
 import services as _services
 
+from typing import List
+
 ###################################################
 
 # Versions de notre API
@@ -120,7 +122,7 @@ def delete_synopsis(
 ################################################################################################
 
 @v1.post("/similar-works/")
-async def get_similar_works_FT(
+async def get_similar_works(
     request: Request, 
     input: _schemas.QueryCreate,
     db: _orm.Session = _fastapi.Depends(_services.get_db)):
