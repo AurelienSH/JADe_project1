@@ -30,7 +30,7 @@ function clickThumbButtons(button_id, isThumbUp) {
   }
   
   fetch(
-    "http://127.0.0.1:8000/api/v0/synopsis", // l'url de notre API
+    "http://127.0.0.1:8000/api/v1/synopsis", // l'url de notre API
     {
         method: method,
         headers: {
