@@ -5,10 +5,12 @@ import sqlalchemy.orm as _orm
 import models as _models
 import schemas as _schemas
 import fastapi as _fastapi
-
-from typing import Dict, List
-
 from sqlalchemy import and_
+
+from typing import List, Tuple
+import pickle
+
+import scripts.sentence_similarity as _sentence_similarity
 
 ########## CREATION DATABASE + SESSION ##########
 
@@ -18,7 +20,7 @@ def create_database():
     """
     return _database.Base.metadata.create_all(bind = _database.engine)
 
-def get_db() -> _orm.Session:
+def get_db() -> _orm.Session: # type: ignore    
     """
     Cette fonction retourne une session active pour accéder à la BDD.
     La session sera fermée automatiquement.
@@ -29,7 +31,20 @@ def get_db() -> _orm.Session:
     finally:
         db.close()
         
-################## CRUD ###################
+################# CHARGEMENT DU MODELE et des EMBEDDINGS ##################
+
+models_path = "../models"
+embeddings_path = "../embeddings"
+
+# Récupération du modèle depuis le fichier pickled
+with open(f"{models_path}/sentence_similarity_model", "rb") as file:
+    sentence_similarity_model = pickle.load(file)
+
+# Récupération de la liste d'objets Oeuvre depuis le fichier pickled
+with open(f"{embeddings_path}/embeddings_corpus_movie", "rb") as file:
+    embeddings_corpus_movie = pickle.load(file)
+
+################################# CRUD ###################################
 
 def create_synopsis(db: _orm.Session, synopsis: _schemas.SynopsisCreate) -> _schemas.DBSynopsis:
     db_synopsis = _models.Synopsis(**synopsis.dict())
@@ -48,7 +63,7 @@ def create_query(
     db.refresh(db_query)
     return db_query
 
-def find_similar(
+def find_synopsis_containing_word(
     db: _orm.Session,
     input: str):
     
@@ -76,3 +91,10 @@ def delete_synopsis(
     return {
         "message": f"Suppresion du synopsis effectuée."
     }
+    
+####################################################################################
+
+def cosine_similarity(user_input: str, oeuvres: List[Tuple] =  embeddings_corpus_movie, model = sentence_similarity_model, k: int = 5):
+    
+    return _sentence_similarity.get_similar_works(user_input=user_input, oeuvres=oeuvres, model=model) # type: ignore
+    

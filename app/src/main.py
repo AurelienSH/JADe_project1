@@ -8,31 +8,23 @@ import fastapi as _fastapi
 import schemas as _schemas
 import services as _services
 
-########## BROUILLON ##########
+from typing import List
 
-# env = Environment(
-#     loader=FileSystemLoader("examples/templates"),
-#     autoescape=False,
-# )
+###################################################
 
-# @app.get("/en")
-# async def root_en():
-#     return {"message": "Hello World"}
-
-
-# @app.get("/fr")
-# async def root_fr():
-#     return {"message": "Wesh les individus"}
-
-###############################
-
+# Versions de notre API
 app = FastAPI()
 v0 = FastAPI()
 v1 = FastAPI()
 
+app.mount("/api/v0", v0)
+app.mount("/api/v1", v1)
+
 # Création de la database
 _services.create_database()
 
+
+# Autorisation des requêtes POST et DELETE
 origins = ["*"]
 
 app.add_middleware(
@@ -41,22 +33,23 @@ app.add_middleware(
     allow_methods=["POST", "DELETE"],
 )
 
+# Fichier Static
 app.mount("/front", StaticFiles(directory="../static"), name="front")
-app.mount("/api/v0", v0)
-app.mount("/api/v1", v1)
 
 templates = Jinja2Templates(directory="../templates")
 
 
 ################################################################################################
 #                                                                                              #
-#                                  VERSION 1 : SIMILARITE BASIQUE                              #
+#                                  VERSION 0 : Renvoyer oeuvres                                #
+#                                  qui contiennent le mot de la requête                        #
+#                                   dans leur synopsis                                         #
 #                                                                                              #
 ################################################################################################
 
 
 @v0.post("/similar-works/")
-async def get_similar_works(
+async def find_synopsis_containing_word(
     request: Request, 
     input: _schemas.QueryCreate,
     db: _orm.Session = _fastapi.Depends(_services.get_db)):
@@ -74,7 +67,7 @@ async def get_similar_works(
     # _services.create_query(db=db, query=input)
 
     # Liste des oeuvres similaires avec quelques métadonnées
-    similars = _services.find_similar(db=db, input=input.synopsis)
+    similars = _services.find_synopsis_containing_word(db=db, input=input.synopsis)
     
     accept_header = request.headers.get('Accept')
     
@@ -124,13 +117,31 @@ def delete_synopsis(
 
 ################################################################################################
 #                                                                                              #
-#                                  VERSION 2 : FINE-TUNING                                     #
+#                                  VERSION 1 : SENTENCE SIMILARITY                             #
 #                                                                                              #
 ################################################################################################
 
 @v1.post("/similar-works/")
-async def get_similar_works_FT(
+async def get_similar_works(
     request: Request, 
     input: _schemas.QueryCreate,
     db: _orm.Session = _fastapi.Depends(_services.get_db)):
-    return {"content": "prout"}
+    
+    similars = _services.cosine_similarity(input.synopsis)
+    
+    accept_header = request.headers.get('Accept')
+    
+    # Résultat pour l'interface graphique
+    if "text/html" in accept_header: # type: ignore        
+        return templates.TemplateResponse(
+            "result_table.html.jinja", 
+            {
+            "request": request,
+            "input_user": input.synopsis, # le synopsis écrit par l'utilisateur
+            "similars": similars,
+            }
+        )
+        
+    # Résultat pour une requête depuis le terminal
+    elif "application/json" in accept_header: # type: ignore        
+        return similars
