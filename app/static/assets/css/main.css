@@ -1306,7 +1306,7 @@ input, select, textarea {
 	}
 
 	body {
-		background-image: url("images/overlay.png"), url("images/bg.jpg");
+		background-image: url("images/overlay.png"), url("images/bg_purple.png");
 		background-repeat: repeat, no-repeat;
 		background-size: auto, 100% 100%;
 		background-attachment: fixed;
@@ -1680,6 +1680,30 @@ input, select, textarea {
 				width: 100%;
 			}
 
+		}
+
+	.thumb-button {
+		background-color: white;
+		border: none;
+		border-radius: 5px;
+		padding: 8px;
+		cursor: pointer;
+		}
+		
+		.thumb-button .fa-thumbs-up {
+		color: gray;
+		}
+
+		.thumb-button .fa-thumbs-down {
+			color: gray;
+			}
+		
+		.thumb-button.active .fa-thumbs-up {
+		color: green;
+		}
+
+		.thumb-button.active .fa-thumbs-down {
+			color: red;
 		}
 
 /* List */

@@ -3,29 +3,46 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>        
+        <link rel="stylesheet" href="assets/css/main.css?id=1816" />
+		    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+      </head>
+    <body>
+
+        <!-- Requête de l'utilisateur -->
+        <blockquote id="input_user">{{input_user}}</blockquote>    
+        
         <table class="default">
             <thead>
               <tr>
                 <th class="tg-0pky">NOM</th>
+                <th class="tg-0pky">TYPE</th>
                 <th class="tg-0pky">PUBLICATION</th>
                 <th class="tg-0pky">SYNOPSIS</th>
+                <th class="tg-0pky">AVIS</th>
               </tr>
             </thead>
             <tbody>
-                {% for (title, date_published, content) in similars %}
+                {% for (title, type, date_published, content) in similars %}
               <tr>
-                <td>{{title}}</td>
-                <td>{{date_published}}</td>
-                <td>{{content}}</td>
+                <td row_number="{{loop.index}}" id="title-result-{{loop.index}}">{{title}}</td>
+                <td row_number="{{loop.index}}" id="type-result-{{loop.index}}">{{type}}</td>
+                <td row_number="{{loop.index}}" id="date-published-result-{{loop.index}}">{{date_published}}</td>
+                <td row_number="{{loop.index}}" id="content-{{loop.index}}">{{content}}</td>
+
+                <!-- Pour donner son avis -->
+                <td> 
+                  <button row_number="{{loop.index}}" type="button" class="thumb-button" id="thumb-up-button-result-{{loop.index}}" onclick="clickThumbButtons(this.id, true)">
+                    <i class="icon solid fa-thumbs-up"></i>
+                  </button>
+                  <button row_number="{{loop.index}}" type="button" class="thumb-button" id="thumb-down-button-result-{{loop.index}}" onclick="clickThumbButtons(this.id, false)">
+                    <i class="icon solid fa-thumbs-down"></i>
+                  </button>
+                </td>
+
               </tr>
                 {% endfor %}
             </tbody>
-            </table>
+            </table> 
     </body>
 </html>

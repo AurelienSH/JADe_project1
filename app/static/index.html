@@ -20,19 +20,21 @@
 				<!-- Nav -->
 					<nav id="nav">
 						<a href="#home" class="icon solid fa-home"><span>Accueil</span></a>
-						<a href="#avis" class="icon solid fa-comments"><span>Avis</span></a>
+						<a href="#demo" class="icon solid fa-comments"><span>Demo</span></a>
 						<a href="https://github.com/AurelienSH/JADe_project1" class="icon brands fa-github" target=_blank><span>GitHub</span></a>
 					</nav>
 
 				<!-- Main -->
 				<div id="main">
 
-						<!-- Chercher une oeuvre -->
+						<!-- Page d'accueil : chercher une oeuvre -->
 							<article id="home" class="panel">
 								<header>
 									<h2>Trouver une oeuvre</h2>
 								</header>
-								<form action="http://127.0.0.1:8000/submit" method="post" id="inputForm">
+
+								<!-- Formulaire pour écrire la requête -->
+								<form action="http://127.0.0.1:8000/api/v1/similar-works" method="post" id="inputForm">
 									<div>
 										<div class="row">
 											<div class="col-12">												
@@ -48,54 +50,15 @@
 								<!-- Résultat de la requête -->
 								<div id="result"></div>
 
-								<!-- Javascript pour récupérer le résultat de l'API et l'écrire au bon endroit -->
-								  <script>
-									document.querySelector("#inputForm").onsubmit = async (event) => {
-										event.preventDefault() // empêche la page de reload
-										const form = event.target
-										
-										// Récupération de ce qu'on a écrit dans le formulaire
-										const data = {
-											synopsis: form.querySelector("#synopsis").value,
-										}
-
-										console.log(data)
-										
-										// Définition de la requête POST
-										const response = await fetch(
-											form.action, // l'url de notre API
-											{
-												method: "POST",
-												headers: {
-													"Content-Type": "application/json",
-												},
-												body: JSON.stringify(data)
-											}
-											)
-
-										console.log(response)
-											
-										// récupération du résultat de la requête
-										const result = await response.text() // read response body as text
-										
-										console.log(result)
-
-										// écriture du résultat dans la div avec l'ID "result"
-										document.querySelector("#result").innerHTML = result
-									}
-								  </script>
-
 							</article>
 
-						<!-- Work -->
-							<article id="avis" class="panel">
+						<!-- /!\ A VENIR : section avec des exemples pour showcase notre API -->
+							<article id="demo" class="panel">
 								<header>
-									<h2>Avis</h2>
+									<h2>Demo</h2>
 								</header>
 								<p>
-									Phasellus enim sapien, blandit ullamcorper elementum eu, condimentum eu elit.
-									Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia
-									luctus elit eget interdum.
+									/!\ A VENIR : section avec des exemples pour showcase notre API
 								</p>
 							</article>
 
@@ -116,6 +79,8 @@
 			<script src="assets/js/breakpoints.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
+			<script src="assets/js/submitSynopsis.js"></script> <!-- Script pour l'appel à l'API -->
+			<script src="assets/js/thumbUp.js"></script> <!-- Script pour prendre en compte l'avis utilisateur -->
 
 	</body>
 </html>
