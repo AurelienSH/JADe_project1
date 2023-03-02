@@ -24,6 +24,14 @@ from sklearn.metrics.pairwise import cosine_distances
 ##############################################################
 
 def read_corpus(corpus_path: str) -> List[List[str]]:
+    """Fonction pour lire le corpus `movie_synopsis.csv`
+
+    Args:
+        corpus_path (str): le chemin vers le CSV du corpus
+
+    Returns:
+        List[List[str]]: le corpus sous la forme d'une liste de listes de strings, tel que une sous-liste = une oeuvre = `[id, synopsis, title]`
+    """
 
     with open(corpus_path, encoding="utf-8") as file:
         csv_reader = csv.DictReader(file)
