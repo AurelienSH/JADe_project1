@@ -1,49 +1,30 @@
 ########## IMPORTATION ##########
  
-import fastapi as _fastapi
-import sqlalchemy.orm as _orm
 import database as _database
 import sqlalchemy as _sql
 
 #################################
-
-class Query(_database.Base):
+    
+class Review(_database.Base):
     """
-    Représente une requête dans la base de données, 
-    quand un utilisateur cherche une oeuvre similaire
-    au synopsis qu'il a rentré.
+    Représente une review dans la BDD
     
     Attributes:
-        - id (int) : La clé primaire de la requête.
-        - synopsis (str) : Le contenu de la requête.
+        - id (int) : La clé primaire du film
+        - title (str) : Le titre de l'oeuvre pour laquelle l'utilisateur a donné une review. Ne peut pas être vide.
+        - synopsis (str) : Le synopsis de l'oeuvre pour laquelle l'utilisateur a donné une review.
+        - pos_query (list) : Une liste contenant toutes les queries qui ont amené l'utilisateur a laissé une review positive pour cette oeuvre
+        - neg_query (list) : Une liste contenant toutes les queries qui ont amené l'utilisateur a laissé une review négative pour cette oeuvre
     """
     
     # Nom de la table
-    __tablename__ = "queries"
-    
-    # Définition des colonnes
-    
-    id = _sql.Column(_sql.Integer, primary_key = True, index = True)
-    synopsis = _sql.Column(_sql.String)
-    
-class Synopsis(_database.Base):
-    """
-    Représente un Synopsis dans la base de données.
-    
-    Attributes:
-        - id (int) : La clé primaire du synopsis.
-        - title (str) : Le titre de l'oeuvre correspond à ce synopsis. Ne peut pas être vide.
-        - date_published (int) : La date de publication de l'oeuvre correspond à ce synopsis.
-        - type (str) : Le type de l'oeuvre correspond à ce synopsis (film, série, livre...)
-    """
-    
-    # Nom de la table
-    __tablename__ = "synopsis"
+    __tablename__ = "movie_review"
     
     # Définition des colonnes
     
     id = _sql.Column(_sql.Integer, primary_key = True, index = True)
     title = _sql.Column(_sql.String, nullable = False, index = True)
-    date_published = _sql.Column(_sql.Integer, index = True)
-    type = _sql.Column(_sql.String)
-    content = _sql.Column(_sql.String)
+    synopsis = _sql.Column(_sql.String, nullable = False, index = True)
+
+    pos_query = _sql.Column(_sql.JSON) # Liste queries positives
+    neg_query = _sql.Column(_sql.JSON) # Liste queries négatives
