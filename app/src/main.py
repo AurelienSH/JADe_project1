@@ -205,14 +205,16 @@ async def get_similar_works_FT(
     elif "application/json" in accept_header: # type: ignore        
         return similars
     
-@v2.post("/reviews/")
+@v2.post("/reviews/", response_model=_schemas.DBReview)
 async def add_review(
     review: _schemas.ReviewAdd,
     db: _orm.Session = _fastapi.Depends(_services.get_db)
 ):
     
     # Ajout de la review dans la BDD
-    _services.add_movie_review(
+    new_review = _services.add_movie_review(
         db=db,
         review=review
     )
+    
+    return new_review
