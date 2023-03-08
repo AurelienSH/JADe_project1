@@ -16,8 +16,6 @@
             <thead>
               <tr>
                 <th class="tg-0pky">NOM</th>
-                <th class="tg-0pky">TYPE</th>
-                <th class="tg-0pky">PUBLICATION</th>
                 <th class="tg-0pky">SYNOPSIS</th>
                 <th class="tg-0pky">AVIS</th>
               </tr>
@@ -26,8 +24,6 @@
                 {% for oeuvre in similars %}
               <tr>
                 <td row_number="{{loop.index}}" id="title-result-{{loop.index}}">{{oeuvre["title"]}}</td>
-                <td row_number="{{loop.index}}" id="type-result-{{loop.index}}">{{oeuvre["type"]}}</td>
-                <td row_number="{{loop.index}}" id="date-published-result-{{loop.index}}">{{oeuvre["date_published"]}}</td>
                 <td row_number="{{loop.index}}" id="content-result-{{loop.index}}">{{oeuvre["content"]}}</td>
 
                 <!-- Pour donner son avis -->
