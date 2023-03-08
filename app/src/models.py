@@ -25,6 +25,5 @@ class Review(_database.Base):
     id = _sql.Column(_sql.Integer, primary_key = True, index = True)
     title = _sql.Column(_sql.String, nullable = False, index = True)
     synopsis = _sql.Column(_sql.String, nullable = False, index = True)
-
-    pos_query = _sql.Column(_sql.JSON) # Liste queries positives
-    neg_query = _sql.Column(_sql.JSON) # Liste queries négatives
+    query = _sql.Column(_sql.String) # Liste queries positives
+    score = _sql.Column(_sql.String) # Liste queries négatives

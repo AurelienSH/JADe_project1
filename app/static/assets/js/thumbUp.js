@@ -12,20 +12,20 @@ function clickThumbButtons(button_id, isThumbUp) {
 
   // Récupération des valeurs pour la suppression ou l'ajout du synopsis à la BDD
 
-  let value;
+  let score;
   if (isThumbUp) { // Review positive
-      value = "pos";
+      score = "pos";
   }
   else { // Review négative
-      value = "neg";
+      score = "neg";
   }
 
   // Modèle Pydantic pour l'ajout d'une review
-  const reviewCreate =  {
+  const review =  {
     "title": document.getElementById(`title-result-${row_number}`).innerText,
     "synopsis": document.getElementById(`content-result-${row_number}`).innerText,
     "query": document.getElementById("input_user").innerText,
-    "value": value
+    "score": score
   };
   
   fetch(
@@ -36,11 +36,9 @@ function clickThumbButtons(button_id, isThumbUp) {
             "Content-Type": "application/json",
             "Accept": "text/html"
         },
-        body: JSON.stringify(reviewCreate)
+        body: JSON.stringify(review)
     }
     );  
-
-    console.log("ajout de la review dans la BDD")
 }
 
 function updateThumbColor(isThumbUp, row_number) {

@@ -79,43 +79,20 @@ def get_db() -> _orm.Session: # type: ignore
 #         "message": f"Suppresion du synopsis effectuée."
 #     }
     
-def create_new_review(
-    db: _orm.Session,
-    new_review: _schemas.ReviewCreate
-):
-    
-    # Recherche du film dans la BDD des reviews
-    existing_review = db.query(_models.Review).filter(_models.Review.title.ilike(new_review.title)).first()
-    
-    if existing_review: # Film a déjà eu des reviews
-        return existing_review
-    
-    else: # Première review pour ce film donc ajout dans la BDD
-        db_review = _models.Review(new_review)
-        db.add(db_review)
-        db.commit()
-        db.refresh(db_review)
-        
-    return db_review
-    
 def add_movie_review(
     db: _orm.Session,
     review: _schemas.ReviewAdd
 ):
+
+    db_review = _models.Review(**review.dict())
+    db.add(db_review)
+    db.commit()
+    db.refresh(db_review)
     
-    # Vérification de la présence du film dans la BDD
-    # Sinon ajout dans la BDD 
-    db_review = create_new_review(db=db, new_review=_schemas.ReviewCreate(**review.dict()))
-    
-    if review.value == "pos": # Review positive
-        db_review.pos_query.append(review.query)
-    
-    elif review.value == "neg": # Review négative
-        db_review.neg_query.append(review.query)
         
     print("#####################################################")
-    print(db_review.pos_query)
-    print(db_review.neg_query)
+    print(db_review.query)
+    print(db_review.score)
     print("#####################################################")
         
     return db_review
