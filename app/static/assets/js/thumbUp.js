@@ -12,34 +12,35 @@ function clickThumbButtons(button_id, isThumbUp) {
 
   // Récupération des valeurs pour la suppression ou l'ajout du synopsis à la BDD
 
-  const data =  {
-    "title": document.getElementById(`title-result-${row_number}`).innerText,
-    "date_published": document.getElementById(`date-published-result-${row_number}`).innerText,
-    "type": document.getElementById(`type-result-${row_number}`).innerText,
-    "content": document.getElementById("input_user").innerText
+  let value;
+  if (isThumbUp) { // Review positive
+      value = "pos";
+  }
+  else { // Review négative
+      value = "neg";
   }
 
-  let method;
-  // Requête POST pour ajouter si on clique sur thumb-up
-  if (isThumbUp) {
-      method = "POST";
-  }
-  // Requête DELETE pour supprimer de la BDD si on clique sur thumb-down
-  else {
-      method = "DELETE";
-  }
+  // Modèle Pydantic pour l'ajout d'une review
+  const reviewCreate =  {
+    "title": document.getElementById(`title-result-${row_number}`).innerText,
+    "synopsis": document.getElementById(`content-result-${row_number}`).innerText,
+    "query": document.getElementById("input_user").innerText,
+    "value": value
+  };
   
   fetch(
-    "http://127.0.0.1:8000/api/v1/synopsis", // l'url de notre API
+    "http://127.0.0.1:8000/api/v2/reviews", // l'url de notre API
     {
-        method: method,
+        method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Accept": "text/html"
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(reviewCreate)
     }
     );  
+
+    console.log("ajout de la review dans la BDD")
 }
 
 function updateThumbColor(isThumbUp, row_number) {
