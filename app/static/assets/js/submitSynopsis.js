@@ -6,7 +6,7 @@ document.querySelector("#inputForm").onsubmit = async (event) => {
     
     // Récupération de ce qu'on a écrit dans le formulaire
     const data = {
-        synopsis: form.querySelector("#synopsis").value,
+        content: form.querySelector("#synopsis").value,
     }
     
     // Définition de la requête POST
