@@ -6,6 +6,11 @@ import pydantic as _pydantic
 
 from typing import List
 
+############# QUERIES ############
+
+class Query(_pydantic.BaseModel):
+    content: str
+
 ########## MOVIE REVIEW ##########
 
 class _ReviewBase(_pydantic.BaseModel):
@@ -15,7 +20,8 @@ class _ReviewBase(_pydantic.BaseModel):
     neg_query: List[str] = []
     
 class ReviewCreate(_ReviewBase):
-    pass
+    query: str
+    
     
 class DBReview(_ReviewBase):
     id: int
