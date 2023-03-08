@@ -51,20 +51,20 @@ with open(f"{models_path}/sentence_similarity_model", "rb") as file:
     model = pickle.load(file)
 
 # Récupération du modèle fine-tuné depuis le fichier pickled (pour la V2)
-# with open(f"{models_path}/sentence_similarity_model_FT", "rb") as file:
-#     model_FT = pickle.load(file)
+with open(f"{models_path}/sentence_similarity_model_FT", "rb") as file:
+    model_FT = pickle.load(file)
 
 # Récupération de la liste d'objets Oeuvre depuis le fichier pickled
 with open(f"{embeddings_path}/embeddings_corpus_movie", "rb") as file:
     embeddings_corpus_movie = pickle.load(file)
 
-# ################################################################################################
-# #                                                                                              #
-# #                                  VERSION 0 : Renvoyer oeuvres                                #
-# #                                  qui contiennent le mot de la requête                        #
-# #                                   dans leur synopsis                                         #
-# #                                                                                              #
-# ################################################################################################
+################################################################################################
+#                                                                                              #
+#                                  VERSION 0 : Renvoyer oeuvres                                #
+#                                  qui contiennent le mot de la requête                        #
+#                                   dans leur synopsis                                         #
+#                                                                                              #
+################################################################################################
 
 
 # @v0.post("/similar-works/")
@@ -184,7 +184,7 @@ async def get_similar_works_FT(
     
     # Recherche des oeuvres les plus similaires avec le modèle fine-tuné
     similars = _services.cosine_similarity(user_input = input.content, 
-                                           model=model,
+                                           model=model_FT,
                                            oeuvres=embeddings_corpus_movie
                                            )
     
