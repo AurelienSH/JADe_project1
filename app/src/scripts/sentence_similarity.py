@@ -64,7 +64,7 @@ def get_similar_works(user_input: str, oeuvres: List[Tuple], model: SentenceTran
     # Pour obtenir les oeuvres les plus proches 
     sorted_similars = sorted(similars, key=lambda x: x[0])
     
-    return [{"title": title, "type": "movie", "date_published": 0000, "content": synopsis} for _, title, synopsis in sorted_similars[:k]]
+    return [{"title": title, "content": synopsis} for _, title, synopsis in sorted_similars[:k]]
 
 
 ##############################################################
