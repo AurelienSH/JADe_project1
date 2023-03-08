@@ -51,8 +51,8 @@ with open(f"{models_path}/sentence_similarity_model", "rb") as file:
     model = pickle.load(file)
 
 # Récupération du modèle fine-tuné depuis le fichier pickled (pour la V2)
-with open(f"{models_path}/sentence_similarity_model_FT", "rb") as file:
-    model_FT = pickle.load(file)
+# with open(f"{models_path}/sentence_similarity_model_FT", "rb") as file:
+#     model_FT = pickle.load(file)
 
 # Récupération de la liste d'objets Oeuvre depuis le fichier pickled
 with open(f"{embeddings_path}/embeddings_corpus_movie", "rb") as file:
@@ -176,7 +176,7 @@ async def get_similar_works(
 #                                                                                              #
 ################################################################################################
 
-@v1.post("/similar-works/")
+@v2.post("/similar-works/")
 async def get_similar_works_FT(
     request: Request, 
     input: _schemas.Query,
@@ -184,7 +184,7 @@ async def get_similar_works_FT(
     
     # Recherche des oeuvres les plus similaires avec le modèle fine-tuné
     similars = _services.cosine_similarity(user_input = input.content, 
-                                           model=model_FT,
+                                           model=model,
                                            oeuvres=embeddings_corpus_movie
                                            )
     
@@ -204,3 +204,15 @@ async def get_similar_works_FT(
     # Résultat pour une requête depuis le terminal
     elif "application/json" in accept_header: # type: ignore        
         return similars
+    
+@v2.post("/reviews/")
+async def add_review(
+    review: _schemas.ReviewAdd,
+    db: _orm.Session = _fastapi.Depends(_services.get_db)
+):
+    
+    # Ajout de la review dans la BDD
+    _services.add_movie_review(
+        db=db,
+        review=review
+    )
