@@ -10,8 +10,7 @@ import services as _services
 
 from typing import List
 
-###################################################
-
+""
 # Versions de notre API
 app = FastAPI()
 v0 = FastAPI()
@@ -45,7 +44,7 @@ templates = Jinja2Templates(directory="../templates")
 #                                  qui contiennent le mot de la requête                        #
 #                                   dans leur synopsis                                         #
 #                                                                                              #
-################################################################################################
+# ###############################################################################################
 
 
 @v0.post("/similar-works/")
@@ -119,7 +118,7 @@ def delete_synopsis(
 #                                                                                              #
 #                                  VERSION 1 : SENTENCE SIMILARITY                             #
 #                                                                                              #
-################################################################################################
+# ###############################################################################################
 
 @v1.post("/similar-works/")
 async def get_similar_works(
