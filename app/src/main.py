@@ -70,9 +70,8 @@ templates = Jinja2Templates(directory="../templates")
 models_path = "../models"
 embeddings_path = "../embeddings"
 
-# Récupération du modèle depuis le fichier pickled (pour la V1)
-with open(f"{models_path}/sentence_similarity_model", "rb") as file:
-    model = pickle.load(file)
+# Récupération du modèle non fine-tuné
+model = SentenceTransformer(f"{models_path}/sentence_similarity_model")
 
 # Récupération du modèle fine-tuné
 model_FT = SentenceTransformer(f"{models_path}/sentence_similarity_model_FT")
