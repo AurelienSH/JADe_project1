@@ -11,6 +11,10 @@ import services as _services
 from typing import List
 import pickle
 
+from sentence_transformers import SentenceTransformer, SentencesDataset, InputExample, losses
+from torch.utils.data import DataLoader
+from scripts.preprocessing import make_embeddings_corpus, read_corpus
+
 ###################################################
 
 # Versions de notre API
@@ -50,13 +54,16 @@ embeddings_path = "../embeddings"
 with open(f"{models_path}/sentence_similarity_model", "rb") as file:
     model = pickle.load(file)
 
-# Récupération du modèle fine-tuné depuis le fichier pickled (pour la V2)
-with open(f"{models_path}/sentence_similarity_model_FT", "rb") as file:
-    model_FT = pickle.load(file)
+# Récupération du modèle fine-tuné
+model_FT = SentenceTransformer(f"{models_path}/sentence_similarity_model_FT")
 
-# Récupération de la liste d'objets Oeuvre depuis le fichier pickled
+# Récupération des embeddings du corpus pour la V1
 with open(f"{embeddings_path}/embeddings_corpus_movie", "rb") as file:
     embeddings_corpus_movie = pickle.load(file)
+    
+# Récupération des embeddings du corpus pour la V2
+with open(f"{embeddings_path}/embeddings_FT_corpus_movie", "rb") as file:
+    embeddings_FT_corpus_movie = pickle.load(file)
 
 ################################################################################################
 #                                                                                              #
@@ -185,7 +192,7 @@ async def get_similar_works_FT(
     # Recherche des oeuvres les plus similaires avec le modèle fine-tuné
     similars = _services.cosine_similarity(user_input = input.content, 
                                            model=model_FT,
-                                           oeuvres=embeddings_corpus_movie
+                                           oeuvres=embeddings_FT_corpus_movie
                                            )
     
     accept_header = request.headers.get('Accept')
@@ -218,3 +225,36 @@ async def add_review(
     )
     
     return new_review
+
+@v2.get("/test/")
+def finetune_model(
+    db: _orm.Session = _fastapi.Depends(_services.get_db)
+):
+    
+    # Récupération des données de la BDD
+    # Et mise en forme dans le bon format pour l'entraînement
+    train_examples = _services.get_data_for_FT(db=db)
+    train_dataset = SentencesDataset(train_examples, model)
+    
+    train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=16)
+    train_loss = losses.CosineSimilarityLoss(model_FT)
+    
+    # Entrainement du modèle
+    model_FT.fit(train_objectives=[(train_dataloader, train_loss)],
+                 epochs=3,
+                 warmup_steps=100)
+    
+    # Sauvegarde du modèle
+    model_FT.save(f"{models_path}/sentence_similarity_model_FT")
+    
+    # Recréation des embeddings avec le nouveau modèle fine-tuné sur les reviews
+    corpus = read_corpus("../../Data/movie_synopsis.csv")    
+    embeddings_FT_corpus_movie = make_embeddings_corpus(corpus=corpus, model=model_FT)
+    
+    # Sauvegarde des embeddings
+    with open("../embeddings/embeddings_FT_corpus_movie", "wb") as embeddings_file:
+        pickle.dump(embeddings_FT_corpus_movie, file=embeddings_file)
+    
+    return {
+        "message": "modèle fine-tuné"
+    }

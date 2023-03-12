@@ -12,6 +12,8 @@ import pickle
 
 import scripts.sentence_similarity as _sentence_similarity
 
+from sentence_transformers import InputExample
+
 ########## CREATION DATABASE + SESSION ##########
 
 def create_database():
@@ -88,13 +90,7 @@ def add_movie_review(
     db.add(db_review)
     db.commit()
     db.refresh(db_review)
-    
-        
-    print("#####################################################")
-    print(db_review.query)
-    print(db_review.score)
-    print("#####################################################")
-        
+   
     return db_review
         
     
@@ -103,4 +99,24 @@ def add_movie_review(
 def cosine_similarity(user_input: str, oeuvres: List[Tuple], model, k: int = 5):
     
     return _sentence_similarity.get_similar_works(user_input=user_input, oeuvres=oeuvres, model=model) # type: ignore
+
+####################################################################################
+
+def get_data_for_FT(db: _orm.Session) -> List[InputExample]:
     
+    train_examples = []
+    
+    # Dico pour transformer les scores écrits en string en des distances
+    score2label = {
+        "neg": 1.5,
+        "pos": 0.2
+    }
+    
+    # Création des objet InputExample servant à entraîner le modèle à partir des données de la BDD
+    for synopsis, query, score in db.query(_models.Review.synopsis, _models.Review.query, _models.Review.score).all():
+        train_examples.append(
+            InputExample(texts=[synopsis, query],
+                         label=score2label[score])
+        )
+        
+    return train_examples
