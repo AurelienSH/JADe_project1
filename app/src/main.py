@@ -1,3 +1,10 @@
+####################################################################
+#                                                                  # 
+#                        IMPORTATION DES                           #
+#                            MODULES                               #
+#                                                                  #
+####################################################################
+
 from fastapi import FastAPI, Form, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,7 +23,12 @@ from sentence_transformers import SentenceTransformer, SentencesDataset, InputEx
 from torch.utils.data import DataLoader
 from scripts.preprocessing import make_embeddings_corpus, read_corpus
 
-###################################################
+####################################################################
+#                                                                  # 
+#                              API ET BDD                          #
+#                                 SETUP                            #
+#                                                                  #
+####################################################################
 
 # Versions de notre API
 app = FastAPI()
@@ -46,7 +58,12 @@ app.mount("/front", StaticFiles(directory="../static"), name="front")
 
 templates = Jinja2Templates(directory="../templates")
 
-################# CHARGEMENT DU MODELE et des EMBEDDINGS ##################
+####################################################################
+#                                                                  # 
+#                       CHARGEMENT DES MODELES                     #
+#                         ET DES EMBEDDINGS                        #
+#                                                                  #
+####################################################################
 
 models_path = "../models"
 embeddings_path = "../embeddings"
@@ -66,13 +83,13 @@ with open(f"{embeddings_path}/embeddings_corpus_movie", "rb") as file:
 with open(f"{embeddings_path}/embeddings_FT_corpus_movie", "rb") as file:
     embeddings_FT_corpus_movie = pickle.load(file)
 
-################################################################################################
-#                                                                                              #
-#                                  VERSION 0 : Renvoyer oeuvres                                #
-#                                  qui contiennent le mot de la requête                        #
-#                                   dans leur synopsis                                         #
-#                                                                                              #
-################################################################################################
+####################################################################
+#                                                                  #
+#                  VERSION 0 : Renvoyer oeuvres                    #
+#                  qui contiennent le mot de la requête            #
+#                     dans leur synopsis                           #
+#                                                                  #
+####################################################################
 
 
 # @v0.post("/similar-works/")
@@ -142,11 +159,11 @@ with open(f"{embeddings_path}/embeddings_FT_corpus_movie", "rb") as file:
     
     
 
-################################################################################################
-#                                                                                              #
-#                                  VERSION 1 : SENTENCE SIMILARITY                             #
-#                                                                                              #
-################################################################################################
+####################################################################
+#                                                                  #
+#              VERSION 1 : SENTENCE SIMILARITY                     #
+#                                                                  #
+####################################################################
 
 @v1.post("/similar-works/")
 async def get_similar_works(
@@ -177,11 +194,11 @@ async def get_similar_works(
         return similars
     
     
-################################################################################################
-#                                                                                              #
-#                                  VERSION 2 : SENTENCE SIMILARITY FINE-TUNE                   #
-#                                                                                              #
-################################################################################################
+####################################################################
+#                                                                  #                           #
+#            VERSION 2 : SENTENCE SIMILARITY FINE-TUNE             #
+#                                                                  #                            #
+####################################################################
 
 @v2.post("/similar-works/")
 async def get_similar_works_FT(
