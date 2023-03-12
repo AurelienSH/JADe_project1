@@ -8,8 +8,9 @@ import fastapi as _fastapi
 import schemas as _schemas
 import services as _services
 
-from typing import List
 import pickle
+
+import scripts.similarity as _similarity
 
 from sentence_transformers import SentenceTransformer, SentencesDataset, InputExample, losses
 from torch.utils.data import DataLoader
@@ -154,10 +155,9 @@ async def get_similar_works(
     db: _orm.Session = _fastapi.Depends(_services.get_db)):
     
     # Recherche des oeuvres les plus similaires avec le modèle non fine-tuné
-    similars = _services.cosine_similarity(user_input = input.content, 
-                                           model=model,
-                                           oeuvres=embeddings_corpus_movie
-                                           )
+    similars = _similarity.get_similar_works(user_input=input.content,
+                                             oeuvres=embeddings_corpus_movie,
+                                             model=model)
     
     accept_header = request.headers.get('Accept')
     
@@ -190,7 +190,7 @@ async def get_similar_works_FT(
     db: _orm.Session = _fastapi.Depends(_services.get_db)):
     
     # Recherche des oeuvres les plus similaires avec le modèle fine-tuné
-    similars = _services.cosine_similarity(user_input = input.content, 
+    similars = _similarity.get_similar_works(user_input = input.content, 
                                            model=model_FT,
                                            oeuvres=embeddings_FT_corpus_movie
                                            )
