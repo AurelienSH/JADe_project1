@@ -85,7 +85,7 @@ with open(f"{embeddings_path}/embeddings_corpus_movie", "rb") as file:
 with open(f"{embeddings_path}/embeddings_FT_corpus_movie", "rb") as file:
     embeddings_FT_corpus_movie = pickle.load(file)
 
-# Finetuning
+# Finetuning hebdomadaire
 finetune_model(db = _fastapi.Depends(_services.get_db), model=model_FT, model_path = models_path)
 
 ####################################################################
@@ -247,36 +247,3 @@ async def add_review(
     )
     
     return new_review
-
-@v2.get("/test/")
-def finetune_model(
-    db: _orm.Session = _fastapi.Depends(_services.get_db)
-):
-    
-    # Récupération des données de la BDD
-    # Et mise en forme dans le bon format pour l'entraînement
-    train_examples = _services.get_data_for_FT(db=db)
-    train_dataset = SentencesDataset(train_examples, model)
-    
-    train_dataloader = DataLoader(train_dataset, shuffle=True, batch_size=16)
-    train_loss = losses.CosineSimilarityLoss(model_FT)
-    
-    # Entrainement du modèle
-    model_FT.fit(train_objectives=[(train_dataloader, train_loss)],
-                 epochs=3,
-                 warmup_steps=100)
-    
-    # Sauvegarde du modèle
-    model_FT.save(f"{models_path}/sentence_similarity_model_FT")
-    
-    # Recréation des embeddings avec le nouveau modèle fine-tuné sur les reviews
-    corpus = read_corpus("../../Data/movie_synopsis.csv")    
-    embeddings_FT_corpus_movie = make_embeddings_corpus(corpus=corpus, model=model_FT)
-    
-    # Sauvegarde des embeddings
-    with open("../embeddings/embeddings_FT_corpus_movie", "wb") as embeddings_file:
-        pickle.dump(embeddings_FT_corpus_movie, file=embeddings_file)
-    
-    return {
-        "message": "modèle fine-tuné"
-    }
