@@ -22,6 +22,8 @@ import scripts.similarity as _similarity
 from sentence_transformers import SentenceTransformer, SentencesDataset, InputExample, losses
 from torch.utils.data import DataLoader
 from scripts.preprocessing import make_embeddings_corpus, read_corpus
+from scripts.finetuning import finetune_model
+
 
 ####################################################################
 #                                                                  # 
@@ -82,6 +84,9 @@ with open(f"{embeddings_path}/embeddings_corpus_movie", "rb") as file:
 # Récupération des embeddings du corpus pour la V2
 with open(f"{embeddings_path}/embeddings_FT_corpus_movie", "rb") as file:
     embeddings_FT_corpus_movie = pickle.load(file)
+
+# Finetuning
+finetune_model(db = _fastapi.Depends(_services.get_db), model=model_FT, model_path = models_path)
 
 ####################################################################
 #                                                                  #
