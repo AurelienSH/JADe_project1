@@ -7,10 +7,7 @@ import schemas as _schemas
 import fastapi as _fastapi
 from sqlalchemy import and_
 
-from typing import List, Tuple
-import pickle
-
-import scripts.sentence_similarity as _sentence_similarity
+from typing import List
 
 from sentence_transformers import InputExample
 
@@ -92,15 +89,6 @@ def add_movie_review(
     db.refresh(db_review)
    
     return db_review
-        
-    
-####################################################################################
-
-def cosine_similarity(user_input: str, oeuvres: List[Tuple], model, k: int = 5):
-    
-    return _sentence_similarity.get_similar_works(user_input=user_input, oeuvres=oeuvres, model=model) # type: ignore
-
-####################################################################################
 
 def get_data_for_FT(db: _orm.Session) -> List[InputExample]:
     

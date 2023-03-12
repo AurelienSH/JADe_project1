@@ -45,7 +45,7 @@ def main():
                 data_for_fine_tuning.append(Query_FT(synopsis=synopsis, pos_query=query, neg_query=neg))
 
     # Chargement du modèle
-    model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
+    model = SentenceTransformer(model_name_or_path='sentence-transformers/all-MiniLM-L6-v2')
 
     # Mise en forme du corpus d'entrainement
     train_examples = [InputExample(texts=[anchor_text, pos_query, neg_query]) for anchor_text, pos_query, neg_query in data_for_fine_tuning] 

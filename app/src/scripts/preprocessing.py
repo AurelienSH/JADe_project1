@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 import csv
 
 def read_corpus(corpus_path: str) -> List[List[str]]:
@@ -15,7 +15,7 @@ def read_corpus(corpus_path: str) -> List[List[str]]:
         
     return corpus
 
-def make_embeddings_corpus(corpus: List[List], model):
+def make_embeddings_corpus(corpus: List[List[str]], model) -> List[Tuple]:
     """Crée une liste de listes [embedding_movie, title, synopsis]
 
     Args:
@@ -23,7 +23,7 @@ def make_embeddings_corpus(corpus: List[List], model):
         model (_type_): le modèle utilisé pour créer les embeddings
 
     Returns:
-        List[List]: liste de listes [embedding_movie, title, synopsis]
+        List[Tuple]: liste de tuples (embedding_movie, title, synopsis)
     """
     embeddings_corpus = [] 
     for synopsis, title in corpus:
