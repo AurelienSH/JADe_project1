@@ -17,6 +17,18 @@ from preprocessing import make_embeddings_corpus, read_corpus
 #########################################################
 
 def main():
+    """Cette fonction sert à finetuner notre modèle pour la première fois.
+    
+    Comme le corpus utilisé pour finetuner la première fois n'a pas le même
+    format que celui qu'on utilisera pour finetuner à l'avenir, on a fait
+    un script juste pour le premier finetuning. 
+    
+    Il se finetune sur un corpus augmenté manuellement et directement dans 
+    le CSV.
+    
+    Plus tard, on finetunera sur les données récollectées par l'API dans 
+    une BDD SQL. 
+    """
     
     # Chargement du corpus augmenté manuellement
     with open("../../../Data/movie_synopsis_augmented.csv", encoding="utf-8") as file:
@@ -56,9 +68,8 @@ def main():
     train_loss = losses.TripletLoss(model=model)
     model.fit(train_objectives=[(train_dataloader, train_loss)], epochs=10)
     
-    corpus = read_corpus("../../../Data/movie_synopsis.csv")
-
     # Création des embeddings avec le modèle fine-tuné
+    corpus = read_corpus("../../../Data/movie_synopsis.csv")
     embeddings_corpus = make_embeddings_corpus(corpus, model=model)
 
     # Sauvegarde des embeddings dans un fichier pickled
