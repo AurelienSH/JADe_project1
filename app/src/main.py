@@ -108,7 +108,7 @@ async def get_similar_works(
     accept_header = request.headers.get('Accept')
     
     # Résultat pour l'interface graphique
-    if "text/html" in accept_header: # type: ignore        
+    if "text/html" == accept_header:       
         return templates.TemplateResponse(
             "result_table.html.jinja", 
             {
@@ -119,7 +119,7 @@ async def get_similar_works(
         )
         
     # Résultat pour une requête depuis le terminal
-    elif "application/json" in accept_header: # type: ignore        
+    elif "application/json" == accept_header:       
         return similars
     
     
@@ -144,7 +144,7 @@ async def get_similar_works_FT(
     accept_header = request.headers.get('Accept')
     
     # Résultat pour l'interface graphique
-    if "text/html" in accept_header: # type: ignore        
+    if "text/html" == accept_header:        
         return templates.TemplateResponse(
             "result_table.html.jinja", 
             {
@@ -155,7 +155,7 @@ async def get_similar_works_FT(
         )
         
     # Résultat pour une requête depuis le terminal
-    elif "application/json" in accept_header: # type: ignore        
+    elif "application/json" == accept_header:      
         return similars
     
 @v2.post("/reviews/", response_model=_schemas.DBReview)
