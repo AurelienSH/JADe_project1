@@ -97,8 +97,21 @@ finetune_model(db = _fastapi.Depends(_services.get_db), model=model_FT, model_pa
 @v1.post("/similar-works/")
 async def get_similar_works(
     request: _fastapi.Request, 
-    input: _schemas.Query,
-    db: _orm.Session = _fastapi.Depends(_services.get_db)):
+    input: _schemas.Query
+    ):
+    """Obtenir les 5 oeuvres les plus proches de la requête de l'utilisateur.
+    
+    L'`input` est vectorisé à l'aide du modèle non-finetuné. On recherche
+    ensuite, avec la fonction `_similarity.get_similar_works()` les 5 oeuvres
+    dont l'embedding du synopsis est le plus proches de l'embedding de l'`input`.
+
+    Args:
+        request (_fastapi.Request)
+        input (_schemas.Query): la requête écrite par l'utilisateur
+
+    Returns:
+        _type_: _description_
+    """
     
     # Recherche des oeuvres les plus similaires avec le modèle non fine-tuné
     similars = _similarity.get_similar_works(user_input=input.content,
