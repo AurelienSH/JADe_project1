@@ -1,11 +1,21 @@
-########## IMPORTATION ##########
+####################################################################
+#                                                                  # 
+#                        IMPORTATION DES                           #
+#                            MODULES                               #
+#                                                                  #
+####################################################################
  
-import fastapi as _fastapi
 import sqlalchemy.orm as _orm
 import sqlalchemy as _sql
 import sqlalchemy.ext.declarative as _declarative
 
-########## SqlAlchemy Setup ##########
+
+####################################################################
+#                                                                  # 
+#                          SQLALCHEMY                              #
+#                            SETUP                                 #
+#                                                                  #
+####################################################################
 
 # Définition de l'URL de la base de données pour SQLAlchemy :
 # elle se trouvera dans le dossier courant dans le fichier `database.db`
@@ -28,7 +38,6 @@ SessionLocal = _orm.sessionmaker(
 
 # Déclaration de la classe de base pour les modèles de base de données
 Base = _declarative.declarative_base()
-
 
 # Création de toutes les tables dans la base de données
 Base.metadata.create_all(bind=engine)
