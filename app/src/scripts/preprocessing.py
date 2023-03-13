@@ -5,6 +5,7 @@
 ##############################################################
 
 import csv # Lecture du corpus
+import pickle # Sauvegarde des embeddings
 
 # Typage des fonctions
 from typing import List, Tuple
@@ -56,3 +57,30 @@ def make_embeddings_corpus(corpus: List[Tuple[str, str]], model: SentenceTransfo
             )
         ) 
     return embeddings_corpus
+
+##############################################################
+#                                                            #
+#                             MAIN                           #
+#                                                            #
+##############################################################
+
+if __name__ == "__main__":
+    
+    # Main utilisé pour la création du fichier `app/embeddings/embeddings_corpus_movie`
+    # Utilisé une seule fois car c'est pour la version de l'API avec le modèle non-finetuné
+    
+    # Lecture du corpus
+    corpus = read_corpus("../../../Data/movie_synopsis.csv")
+    
+    # Chargement du modèle
+    model = SentenceTransformer(model_name_or_path='sentence-transformers/all-MiniLM-L6-v2')
+
+    # Liste contenant toutes les oeuvres sous la forme d'un tuple (embedding, tile, synopsis)
+    oeuvres = make_embeddings_corpus(corpus=corpus, model=model)
+    
+    # Sauvegarde du modèle
+    model.save("../../models/sentence_similarity_model")
+    
+    # Sauvegarde des embeddings dans un fichier pickled
+    with open("../../embeddings/embeddings_corpus_movie", "wb") as embedding_corpus_file:
+        pickle.dump(oeuvres, embedding_corpus_file)
