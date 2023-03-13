@@ -10,10 +10,8 @@ import sqlalchemy.orm as _orm
 import models as _models
 import schemas as _schemas
 import fastapi as _fastapi
-from sqlalchemy import and_
 
 from typing import List
-
 from sentence_transformers import InputExample
 
 
