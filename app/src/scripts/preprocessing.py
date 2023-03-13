@@ -1,32 +1,40 @@
-from typing import List, Tuple
-import csv
+##############################################################
+#                                                            #
+#                     IMPORTATION DES MODULES                #
+#                                                            #
+##############################################################
 
-def read_corpus(corpus_path: str) -> List[List[str]]:
-    """Renvoie le corpus sous la forme d'une liste de listes [synopsis, title]"""
+import csv # Lecture du corpus
+
+# Typage des fonctions
+from typing import List, Tuple
+from sentence_transformers import SentenceTransformer
+
+##############################################################
+
+def read_corpus(corpus_path: str) -> List[Tuple[str, str]]:
+    """Renvoie le corpus sous la forme d'une liste de tuples (title, synopsis)"""
 
     with open(corpus_path, encoding="utf-8") as file:
         csv_reader = csv.DictReader(file)
         
-        # En-tête du CSV
-        headers = csv_reader.fieldnames
-        
-        # Récupération des données sous la forme d'une liste de listes
-        corpus = [[line["synopsis"], line["title"]] for line in csv_reader]
+        # Récupération des données sous la forme d'une liste de tuples
+        corpus = [(line["title"], line["synopsis"]) for line in csv_reader]
         
     return corpus
 
-def make_embeddings_corpus(corpus: List[List[str]], model) -> List[Tuple]:
+def make_embeddings_corpus(corpus: List[Tuple[str, str]], model: SentenceTransformer) -> List[Tuple]:
     """Crée une liste de listes [embedding_movie, title, synopsis]
 
     Args:
-        corpus (List[List[str]]): Le corpus sous la forme d'une liste de listes [title, synopsis]
-        model (_type_): le modèle utilisé pour créer les embeddings
+        corpus (List[Tuple[str, str]]): Le corpus sous la forme d'une liste de tuples (title, synopsis)
+        model (SentenceTransformer): le modèle utilisé pour créer les embeddings
 
     Returns:
         List[Tuple]: liste de tuples (embedding_movie, title, synopsis)
     """
     embeddings_corpus = [] 
-    for synopsis, title in corpus:
+    for title, synopsis in corpus:
         embeddings_corpus.append(
             (
                 model.encode(synopsis), # Embedding du synopsis créé avec le modèle
@@ -35,4 +43,3 @@ def make_embeddings_corpus(corpus: List[List[str]], model) -> List[Tuple]:
             )
         ) 
     return embeddings_corpus
-
