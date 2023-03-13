@@ -99,7 +99,8 @@ async def get_similar_works(
     request: _fastapi.Request, 
     input: _schemas.Query
     ):
-    """Obtenir les 5 oeuvres les plus proches de la requête de l'utilisateur.
+    """Obtenir les 5 oeuvres les plus proches de la requête de l'utilisateur
+    avec le modèle non-finetuné.
     
     L'`input` est vectorisé à l'aide du modèle non-finetuné. On recherche
     ensuite, avec la fonction `_similarity.get_similar_works()` les 5 oeuvres
@@ -110,7 +111,12 @@ async def get_similar_works(
         input (_schemas.Query): la requête écrite par l'utilisateur
 
     Returns:
-        _type_: _description_
+        List[Dict[str, str]]: les 5 oeuvres les plus similaires à l'input de l'utilisateur sous la forme
+            d'une liste de dictionnaires [{"title": title, "content": synopsis}]. Résultat renvoyé 
+            si le header de la requête est "application/json"
+        _TemplateReponse : les 5 oeuvres les plus similaires formaté dans un tableau de résultats
+            avec le template JINJA `result_table.html.jina`. Résultat renvoyé si le header de
+            la requête est "text/html".
     """
     
     # Recherche des oeuvres les plus similaires avec le modèle non fine-tuné
@@ -127,7 +133,7 @@ async def get_similar_works(
             {
             "request": request,
             "input_user": input.content, # le synopsis écrit par l'utilisateur
-            "similars": similars,
+            "similars": similars, # Liste des oeuvres similaires à la requête
             }
         )
         
@@ -145,8 +151,28 @@ async def get_similar_works(
 @v2.post("/similar-works/")
 async def get_similar_works_FT(
     request: _fastapi.Request, 
-    input: _schemas.Query,
-    db: _orm.Session = _fastapi.Depends(_services.get_db)):
+    input: _schemas.Query
+    ):
+    """Obtenir les 5 oeuvres les plus proches de la requête de l'utilisateur
+    avec le modèle finetuné sur les reviews des utilisateurs.
+    
+    L'`input` est vectorisé à l'aide du modèle finetuné sur les reviews utilisateurs. 
+    On recherche ensuite, avec la fonction `_similarity.get_similar_works()` 
+    les 5 oeuvres dont l'embedding du synopsis est le plus proches de l'embedding de l'`input`.
+
+    Args:
+        request (_fastapi.Request)
+        input (_schemas.Query): la requête écrite par l'utilisateur
+
+    Returns:
+        List[Dict[str, str]]: les 5 oeuvres les plus similaires à l'input de l'utilisateur sous la forme
+            d'une liste de dictionnaires [{"title": title, "content": synopsis}]. Résultat renvoyé 
+            si le header de la requête est "application/json"
+        _TemplateReponse : les 5 oeuvres les plus similaires formaté dans un tableau de résultats
+            avec le template JINJA `result_table.html.jina`. Résultat renvoyé si le header de
+            la requête est "text/html".
+
+    """
     
     # Recherche des oeuvres les plus similaires avec le modèle fine-tuné
     similars = _similarity.get_similar_works(user_input = input.content, 
@@ -163,7 +189,7 @@ async def get_similar_works_FT(
             {
             "request": request,
             "input_user": input.content, # le synopsis écrit par l'utilisateur
-            "similars": similars,
+            "similars": similars, # la liste des oeuvres similaires
             }
         )
         
@@ -173,14 +199,31 @@ async def get_similar_works_FT(
     
 @v2.post("/reviews/", response_model=_schemas.DBReview)
 async def add_review(
-    review: _schemas.ReviewAdd,
+    new_review: _schemas.ReviewAdd,
     db: _orm.Session = _fastapi.Depends(_services.get_db)
 ):
+    """Ajouter une review à la BDD.
+    
+    Si un utilisateur considère qu'une des oeuvres est un bon résultat pour
+    la requête qu'il a écrite, une entrée est ajoutée à la BDD. L'entrée rajoutée
+    contient le titre de l'oeuvre, le synopsis de l'oeuvre, la requête écrite par
+    l'utilisateur et "pos" (positif) dans la colonne "score". 
+    
+    En revanche, si l'utilisateur considère qu'une des oeuvres est un mauvais résultat, 
+    l'entrée comprend "neg" (négatif) dans la colonne "score". 
+
+    Args:
+        review (_schemas.ReviewAdd): la review à rajouter à la BDD
+        db (_orm.Session, optional): la session pour accéder à la BDD. Par défaut: _fastapi.Depends(_services.get_db).
+
+    Returns:
+        Review: la review ajoutée à la BDD
+    """
     
     # Ajout de la review dans la BDD
-    new_review = _services.add_movie_review(
+    review = _services.add_movie_review(
         db=db,
-        review=review
+        review=new_review
     )
     
-    return new_review
+    return review
