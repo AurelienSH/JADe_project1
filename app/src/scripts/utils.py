@@ -25,8 +25,8 @@ def set_timer():
 
 
 def check_time(duration = 604800):
-    def inter_check_time(func):
-        def wrapper_check_time(*args, **kwargs):
+    def inter_check_time(*args, **kwargs):
+        def wrapper_check_time(func):
             with open(".times", "r") as f:
                 then = float(f.readlines()[-1].strip())
             now = time.time()

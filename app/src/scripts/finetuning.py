@@ -6,7 +6,7 @@ import pickle
 from sentence_transformers import SentenceTransformer, SentencesDataset, InputExample, losses
 from torch.utils.data import DataLoader
 from scripts.preprocessing import make_embeddings_corpus, read_corpus
-from utils import check_time, set_timer, stash, get_new_name
+from scripts.utils import check_time, set_timer, stash, get_new_name
 
 from rich.console import Console
 from rich.panel import Panel
