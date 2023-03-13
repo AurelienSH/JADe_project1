@@ -21,9 +21,7 @@ import scripts.similarity as _similarity
 
 # Entraînement du modèle
 import pickle # Sauvegarde des embeddings
-from scripts.preprocessing import make_embeddings_corpus, read_corpus
-from sentence_transformers import SentenceTransformer, SentencesDataset, InputExample, losses
-from torch.utils.data import DataLoader
+from sentence_transformers import SentenceTransformer
 from scripts.finetuning import finetune_model
 
 
