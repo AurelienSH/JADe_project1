@@ -60,6 +60,7 @@ app.mount("/front", StaticFiles(directory="../static"), name="front")
 
 templates = Jinja2Templates(directory="../templates")
 
+
 ####################################################################
 #                                                                  # 
 #                       CHARGEMENT DES MODELES                     #
@@ -87,81 +88,6 @@ with open(f"{embeddings_path}/embeddings_FT_corpus_movie", "rb") as file:
 # Finetuning hebdomadaire
 finetune_model(db = _fastapi.Depends(_services.get_db), model=model_FT, model_path = models_path)
 
-####################################################################
-#                                                                  #
-#                  VERSION 0 : Renvoyer oeuvres                    #
-#                  qui contiennent le mot de la requête            #
-#                     dans leur synopsis                           #
-#                                                                  #
-####################################################################
-
-
-# @v0.post("/similar-works/")
-# async def find_synopsis_containing_word(
-#     request: Request, 
-#     input: _schemas.Query,
-#     db: _orm.Session = _fastapi.Depends(_services.get_db)):
-#     """Récupère la requête envoyée par le formulaire,
-#     le réécrit en dessous du formulaire et renvoie toutes les oeuvres
-#     qui contiennent les mots de la requête sous la forme d'un tableau
-#     avec : le nom de l'oeuvre, la date de publication, le type d'oeuvre
-#     (film, série...). 
-    
-#     Utilise le template Jinja `submit_success.html.jinja` pour écrire
-#     le tableau des résultats.
-#     """
-    
-#     # Enregistrement de la requête dans la BDD
-#     # _services.create_query(db=db, query=input)
-
-#     # Liste des oeuvres similaires avec quelques métadonnées
-#     similars = _services.find_synopsis_containing_word(db=db, input=input.content)
-    
-#     accept_header = request.headers.get('Accept')
-    
-#     # Résultat pour l'interface graphique
-#     if "text/html" in accept_header: # type: ignore        
-#         return templates.TemplateResponse(
-#             "result_table.html.jinja", 
-#             {
-#             "request": request,
-#             "input_user": input.synopsis, # le synopsis écrit par l'utilisateur
-#             "similars": similars,
-#             }
-#         )
-        
-#     # Résultat pour une requête depuis le terminal
-#     elif "application/json" in accept_header: # type: ignore        
-#         return similars
-    
-# @v0.post("/synopsis/", response_model = _schemas.DBSynopsis)
-# def create_synopsis(
-#     synopsis: _schemas.SynopsisCreate, 
-#     db: _orm.Session = _fastapi.Depends(_services.get_db)
-#     ) -> _schemas.DBSynopsis:
-#     """Ajoute le synopsis dans la table "synopsis" 
-#     de notre base de données.
-
-#     Args:
-    
-#     - `synopsis` (`_schemas.SynopsisCreate`): Le synopsis qu'on veut ajouter à note database (le titre de l'oeuvre, la date de publication, le type de l'oeuvre et le contenu du synopsis)
-#     - `db` (`_orm.Session`, optional): la session pour accéder à la database. Par défaut : `_fastapi.Depends(_services.get_db)`.
-
-#     Returns:
-    
-#     - (`_schemas.DBSynopsis`): Le synopsis créé dans la database, avec un `id` unique assigné automatiquement par la database.
-#     """
-#     return _services.create_synopsis(db = db, synopsis = synopsis)
-
-# @v0.delete("/synopsis/")
-# def delete_synopsis(
-#     synopsis_to_delete: _schemas.SynopsisCreate,
-#     db: _orm.Session=_fastapi.Depends(_services.get_db)
-# ):
-#     """Supprimer un synopsis de la BDD."""
-#     return _services.delete_synopsis(synopsis_to_delete=synopsis_to_delete, db=db)
-    
-    
 
 ####################################################################
 #                                                                  #
@@ -199,9 +125,9 @@ async def get_similar_works(
     
     
 ####################################################################
-#                                                                  #                           #
+#                                                                  #
 #            VERSION 2 : SENTENCE SIMILARITY FINE-TUNE             #
-#                                                                  #                            #
+#                                                                  #
 ####################################################################
 
 @v2.post("/similar-works/")
