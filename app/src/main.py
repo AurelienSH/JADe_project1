@@ -34,11 +34,9 @@ from scripts.finetuning import finetune_model
 
 # Versions de notre API
 app = FastAPI()
-v0 = FastAPI()
 v1 = FastAPI()
 v2 = FastAPI()
 
-app.mount("/api/v0", v0)
 app.mount("/api/v1", v1)
 app.mount("/api/v2", v2)
 
