@@ -5,23 +5,25 @@
 #                                                                  #
 ####################################################################
 
-from fastapi import FastAPI, Form, Request
+# Interface graphique et API
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.templating import Jinja2Templates
-
-import sqlalchemy.orm as _orm
 import fastapi as _fastapi
+
+# Database
+import sqlalchemy.orm as _orm
 import schemas as _schemas
 import services as _services
 
-import pickle
-
+# Similarité 
 import scripts.similarity as _similarity
 
+# Entraînement du modèle
+import pickle # Sauvegarde des embeddings
+from scripts.preprocessing import make_embeddings_corpus, read_corpus
 from sentence_transformers import SentenceTransformer, SentencesDataset, InputExample, losses
 from torch.utils.data import DataLoader
-from scripts.preprocessing import make_embeddings_corpus, read_corpus
 from scripts.finetuning import finetune_model
 
 
@@ -33,9 +35,9 @@ from scripts.finetuning import finetune_model
 ####################################################################
 
 # Versions de notre API
-app = FastAPI()
-v1 = FastAPI()
-v2 = FastAPI()
+app = _fastapi.FastAPI()
+v1 = _fastapi.FastAPI()
+v2 = _fastapi.FastAPI()
 
 app.mount("/api/v1", v1)
 app.mount("/api/v2", v2)
@@ -43,17 +45,16 @@ app.mount("/api/v2", v2)
 # Création de la database
 _services.create_database()
 
-
-# Autorisation des requêtes POST et DELETE
+# Autorisation des requêtes POST
 origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_methods=["POST", "DELETE"],
+    allow_methods=["POST"],
 )
 
-# Fichier Static
+# Fichiers Static
 app.mount("/front", StaticFiles(directory="../static"), name="front")
 
 templates = Jinja2Templates(directory="../templates")
@@ -95,7 +96,7 @@ finetune_model(db = _fastapi.Depends(_services.get_db), model=model_FT, model_pa
 
 @v1.post("/similar-works/")
 async def get_similar_works(
-    request: Request, 
+    request: _fastapi.Request, 
     input: _schemas.Query,
     db: _orm.Session = _fastapi.Depends(_services.get_db)):
     
@@ -130,7 +131,7 @@ async def get_similar_works(
 
 @v2.post("/similar-works/")
 async def get_similar_works_FT(
-    request: Request, 
+    request: _fastapi.Request, 
     input: _schemas.Query,
     db: _orm.Session = _fastapi.Depends(_services.get_db)):
     
