@@ -1,23 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
+        <title>Results</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="assets/css/main.css?id=15829" />
-		    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+        <link rel="stylesheet" href="assets/css/main.css?id=15829"/>
+		    <noscript><link rel="stylesheet" href="assets/css/noscript.css"/></noscript>
       </head>
     <body>
 
         <!-- Requête de l'utilisateur -->
-        <blockquote id="input_user">{{input_user}}</blockquote>    
-        
+        <blockquote id="input_user">{{input_user}}</blockquote>
+
+        <!-- Table avec les résultats -->
         <table class="default">
             <thead>
               <tr>
-                <th class="tg-0pky">NOM</th>
+                <th class="tg-0pky">NAME</th>
                 <th class="tg-0pky">SYNOPSIS</th>
-                <th class="tg-0pky">AVIS</th>
+                <th class="tg-0pky">REVIEW</th>
               </tr>
             </thead>
             <tbody>
@@ -27,15 +29,16 @@
                 <td row_number="{{loop.index}}" id="content-result-{{loop.index}}">{{oeuvre["content"]}}</td>
 
                 <!-- Pour donner son avis -->
-                <td> 
+                <td>
+                  <!-- Bouton de thumb-up -->
                   <button row_number="{{loop.index}}" type="button" class="thumb-button" id="thumb-up-button-result-{{loop.index}}" onclick="clickThumbButtons(this.id, true)">
                     <i class="icon solid fa-thumbs-up"></i>
                   </button>
+                  <!-- Bouton de thumb-down -->
                   <button row_number="{{loop.index}}" type="button" class="thumb-button" id="thumb-down-button-result-{{loop.index}}" onclick="clickThumbButtons(this.id, false)">
                     <i class="icon solid fa-thumbs-down"></i>
                   </button>
                 </td>
-
               </tr>
                 {% endfor %}
             </tbody>
