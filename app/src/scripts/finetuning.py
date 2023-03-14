@@ -11,6 +11,7 @@ from scripts.utils import check_time, set_timer, stash, get_new_name
 from rich.console import Console
 from rich.panel import Panel
 
+
 @check_time
 def finetune_model(db: _orm.Session, model, model_path):
     console = Console()
@@ -38,8 +39,8 @@ def finetune_model(db: _orm.Session, model, model_path):
 
     # Entrainement du modèle
     model.fit(train_objectives=[(train_dataloader, train_loss)],
-                 epochs=3,
-                 warmup_steps=100)
+              epochs=3,
+              warmup_steps=100)
 
     # Sauvegarde du modèle
     model.save(f"{model_path}/sentence_similarity_model_FT")
@@ -57,6 +58,7 @@ def finetune_model(db: _orm.Session, model, model_path):
     return {
         "message": "modèle fine-tuné"
     }
+
 
 if __name__ == "__main__":
     console = Console()

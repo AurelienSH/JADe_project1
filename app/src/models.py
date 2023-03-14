@@ -4,12 +4,13 @@
 #                            MODULES                               #
 #                                                                  #
 ####################################################################
- 
+
 import database as _database
 import sqlalchemy as _sql
 
+
 ####################################################################
-    
+
 class Review(_database.Base):
     """
     Représente une review dans la BDD
@@ -21,14 +22,14 @@ class Review(_database.Base):
         - query (str) : La requête écrite par l'utilisateur
         - score (str) : "pos" pour une review positive, "neg" pour une review négative
     """
-    
+
     # Nom de la table
     __tablename__ = "movie_review"
-    
+
     # Définition des colonnes
-    
-    id = _sql.Column(_sql.Integer, primary_key = True, index = True)
-    title = _sql.Column(_sql.String, nullable = False, index = True)
-    synopsis = _sql.Column(_sql.String, nullable = False, index = True)
-    query = _sql.Column(_sql.String) # Requête écrite par l'utilisateur
-    score = _sql.Column(_sql.String) # "pos" pour une review positive, "neg" pour une review négative
+
+    id = _sql.Column(_sql.Integer, primary_key=True, index=True)
+    title = _sql.Column(_sql.String, nullable=False, index=True)
+    synopsis = _sql.Column(_sql.String, nullable=False, index=True)
+    query = _sql.Column(_sql.String)  # Requête écrite par l'utilisateur
+    score = _sql.Column(_sql.String)  # "pos" pour une review positive, "neg" pour une review négative

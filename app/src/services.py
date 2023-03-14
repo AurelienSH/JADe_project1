@@ -26,9 +26,10 @@ def create_database():
     """
     Crée toutes les tables dans la base de données.
     """
-    return _database.Base.metadata.create_all(bind = _database.engine)
+    return _database.Base.metadata.create_all(bind=_database.engine)
 
-def get_db() -> _orm.Session: # type: ignore    
+
+def get_db() -> _orm.Session:  # type: ignore
     """
     Cette fonction retourne une session active pour accéder à la BDD.
     La session sera fermée automatiquement.
@@ -47,8 +48,8 @@ def get_db() -> _orm.Session: # type: ignore
 ####################################################################
 
 def add_movie_review(
-    db: _orm.Session,
-    review: _schemas.ReviewAdd
+        db: _orm.Session,
+        review: _schemas.ReviewAdd
 ) -> _schemas.DBReview:
     """Ajouter une review à la BDD.
     
@@ -65,13 +66,14 @@ def add_movie_review(
 
     # Création de l'objet Review correspondant à une entrée de la table `movie_review`
     db_review = _models.Review(**review.dict())
-    
+
     # Ajout de l'entrée à la table
     db.add(db_review)
     db.commit()
     db.refresh(db_review)
-   
+
     return db_review
+
 
 def get_data_for_FT(db: _orm.Session) -> List[InputExample]:
     """Permet d'obtenir les données nécessaires pour le finetuning du modèle.
@@ -90,20 +92,20 @@ def get_data_for_FT(db: _orm.Session) -> List[InputExample]:
     Returns:
         List[InputExample]: les données d'entraînement dans le bon format
     """
-    
+
     train_examples = []
-    
+
     # Dico pour transformer les scores écrits en string en des distances
     score2label = {
         "neg": 1.5,
         "pos": 0.2
     }
-    
+
     # Création des objet InputExample servant à entraîner le modèle à partir des données de la BDD
     for synopsis, query, score in db.query(_models.Review.synopsis, _models.Review.query, _models.Review.score).all():
         train_examples.append(
             InputExample(texts=[synopsis, query],
                          label=score2label[score])
         )
-        
+
     return train_examples

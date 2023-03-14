@@ -4,15 +4,15 @@
 #                                                            #
 ##############################################################
 
-from typing import List, Tuple, Dict # Typage des fonctions
-import pickle # Sauvegarde des embeddings
+from typing import List, Tuple, Dict  # Typage des fonctions
+import pickle  # Sauvegarde des embeddings
 
 # Transformers
 from sentence_transformers import SentenceTransformer
 
 # Calcul de similarité
 from sklearn.metrics.pairwise import cosine_distances, euclidean_distances
-    
+
 
 ##############################################################
 #                                                            #
@@ -20,12 +20,12 @@ from sklearn.metrics.pairwise import cosine_distances, euclidean_distances
 #                                                            #
 ##############################################################
 
-def get_similar_works(user_input: str, 
-                      oeuvres: List[Tuple], 
-                      model: SentenceTransformer, 
-                      k: int=5, 
-                      distance_type = "cos"
-                      ) -> List[Dict[str, str]|None]:
+def get_similar_works(user_input: str,
+                      oeuvres: List[Tuple],
+                      model: SentenceTransformer,
+                      k: int = 5,
+                      distance_type="cos"
+                      ) -> List[Dict[str, str] | None]:
     """Obtenir les oeuvres dont le synopsis est similaire à la requête écrite
     par l'utilisateur.
     
@@ -48,35 +48,35 @@ def get_similar_works(user_input: str,
             dictionnaires [{"title": title, "content": synopsis}]
         None: si la valeur de `distance_type` n'est pas valide
     """
-    
+
     # Vectorization de la requête de l'utilisateur avec le modèle
     input_encoded = model.encode(user_input)
-    
+
     results = []
-    
+
     # Calcul de la distance cosinus entre chaque oeuvre 
     # de la liste d'oeuvre et la requête de l'utilisateur
     for (embedding_oeuvre, title, synopsis) in oeuvres:
-        
+
         # Création résultat sous la forme d'un tuple (distance, title, synopsis)
-        
+
         # Distance cosinus
         if distance_type == "cos":
             result = (cosine_distances([embedding_oeuvre], [input_encoded]), title, synopsis)
-            
+
         # Distance euclidienne
-        elif distance_type == "eucl": 
+        elif distance_type == "eucl":
             result = (euclidean_distances([embedding_oeuvre], [input_encoded]), title, synopsis)
-        
+
         else:
             print("Valeurs de distance_type acceptées : 'cos' ou 'eucl'")
-            return None # type: ignore
-        
+            return None  # type: ignore
+
         # Stockage des résultats dans une liste
         results.append(result)
-    
+
     # Triage des résultats selon la distance par ordre croissant
     # Pour obtenir les oeuvres les plus proches 
     sorted_results = sorted(results, key=lambda x: x[0])
-    
+
     return [{"title": title, "content": synopsis} for _, title, synopsis in sorted_results[:k]]

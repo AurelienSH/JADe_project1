@@ -4,9 +4,10 @@
 #                            MODULES                               #
 #                                                                  #
 ####################################################################
- 
+
 import pydantic as _pydantic
 from typing import List
+
 
 ####################################################################
 #                                                                  # 
@@ -21,6 +22,7 @@ class Query(_pydantic.BaseModel):
         content (str): le contenu de la requête de l'utilisateur.
     """
     content: str
+
 
 ####################################################################
 #                                                                  # 
@@ -41,7 +43,8 @@ class _ReviewBase(_pydantic.BaseModel):
     synopsis: str
     query: str
     score: str
-    
+
+
 class ReviewAdd(_ReviewBase):
     """Schéma pydantic pour la création d'une review dans la BDD (hérite de `_ReviewBase`).
     
@@ -55,7 +58,8 @@ class ReviewAdd(_ReviewBase):
         score (str): "pos" pour une review positive, "neg" pour une review négative
     """
     pass
-      
+
+
 class DBReview(_ReviewBase):
     """Schéma représentant une review effectivement créée dans la BDD.
 
@@ -67,7 +71,6 @@ class DBReview(_ReviewBase):
         score (str): "pos" pour une review positive, "neg" pour une review négative
     """
     id: int
-    
+
     class Config:
         orm_mode = True
-    

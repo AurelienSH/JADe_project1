@@ -20,10 +20,9 @@ import services as _services
 import scripts.similarity as _similarity
 
 # Entraînement du modèle
-import pickle # Sauvegarde des embeddings
+import pickle  # Sauvegarde des embeddings
 from sentence_transformers import SentenceTransformer
 from scripts.finetuning import finetune_model
-
 
 ####################################################################
 #                                                                  # 
@@ -57,7 +56,6 @@ app.mount("/front", StaticFiles(directory="../static"), name="front")
 
 templates = Jinja2Templates(directory="../templates")
 
-
 ####################################################################
 #                                                                  # 
 #                       CHARGEMENT DES MODELES                     #
@@ -77,13 +75,13 @@ model_FT = SentenceTransformer(f"{models_path}/sentence_similarity_model_FT")
 # Récupération des embeddings du corpus pour la V1
 with open(f"{embeddings_path}/embeddings_corpus_movie", "rb") as file:
     embeddings_corpus_movie = pickle.load(file)
-    
+
 # Récupération des embeddings du corpus pour la V2
 with open(f"{embeddings_path}/embeddings_FT_corpus_movie", "rb") as file:
     embeddings_FT_corpus_movie = pickle.load(file)
 
 # Finetuning hebdomadaire
-finetune_model(db = _fastapi.Depends(_services.get_db), model=model_FT, model_path = models_path)
+finetune_model(db=_fastapi.Depends(_services.get_db), model=model_FT, model_path=models_path)
 
 
 ####################################################################
@@ -94,9 +92,9 @@ finetune_model(db = _fastapi.Depends(_services.get_db), model=model_FT, model_pa
 
 @v1.post("/similar-works/")
 async def get_similar_works(
-    request: _fastapi.Request, 
-    input: _schemas.Query
-    ):
+        request: _fastapi.Request,
+        input: _schemas.Query
+):
     """Obtenir les 5 oeuvres les plus proches de la requête de l'utilisateur
     avec le modèle non-finetuné.
     
@@ -116,30 +114,30 @@ async def get_similar_works(
             avec le template JINJA `result_table.html.jina`. Résultat renvoyé si le header de
             la requête est "text/html".
     """
-    
+
     # Recherche des oeuvres les plus similaires avec le modèle non fine-tuné
     similars = _similarity.get_similar_works(user_input=input.content,
                                              oeuvres=embeddings_corpus_movie,
                                              model=model)
-    
+
     accept_header = request.headers.get('Accept')
-    
+
     # Résultat pour l'interface graphique
-    if "text/html" == accept_header:       
+    if "text/html" == accept_header:
         return templates.TemplateResponse(
-            "result_table.html.jinja", 
+            "result_table.html.jinja",
             {
-            "request": request,
-            "input_user": input.content, # le synopsis écrit par l'utilisateur
-            "similars": similars, # Liste des oeuvres similaires à la requête
+                "request": request,
+                "input_user": input.content,  # le synopsis écrit par l'utilisateur
+                "similars": similars,  # Liste des oeuvres similaires à la requête
             }
         )
-        
+
     # Résultat pour une requête depuis le terminal
-    elif "application/json" == accept_header:       
+    elif "application/json" == accept_header:
         return similars
-    
-    
+
+
 ####################################################################
 #                                                                  #
 #            VERSION 2 : SENTENCE SIMILARITY FINE-TUNE             #
@@ -148,9 +146,9 @@ async def get_similar_works(
 
 @v2.post("/similar-works/")
 async def get_similar_works_FT(
-    request: _fastapi.Request, 
-    input: _schemas.Query
-    ):
+        request: _fastapi.Request,
+        input: _schemas.Query
+):
     """Obtenir les 5 oeuvres les plus proches de la requête de l'utilisateur
     avec le modèle finetuné sur les reviews des utilisateurs.
     
@@ -171,34 +169,35 @@ async def get_similar_works_FT(
             la requête est "text/html".
 
     """
-    
+
     # Recherche des oeuvres les plus similaires avec le modèle fine-tuné
-    similars = _similarity.get_similar_works(user_input = input.content, 
-                                           model=model_FT,
-                                           oeuvres=embeddings_FT_corpus_movie
-                                           )
-    
+    similars = _similarity.get_similar_works(user_input=input.content,
+                                             model=model_FT,
+                                             oeuvres=embeddings_FT_corpus_movie
+                                             )
+
     accept_header = request.headers.get('Accept')
-    
+
     # Résultat pour l'interface graphique
-    if "text/html" == accept_header:        
+    if "text/html" == accept_header:
         return templates.TemplateResponse(
-            "result_table.html.jinja", 
+            "result_table.html.jinja",
             {
-            "request": request,
-            "input_user": input.content, # le synopsis écrit par l'utilisateur
-            "similars": similars, # la liste des oeuvres similaires
+                "request": request,
+                "input_user": input.content,  # le synopsis écrit par l'utilisateur
+                "similars": similars,  # la liste des oeuvres similaires
             }
         )
-        
+
     # Résultat pour une requête depuis le terminal
-    elif "application/json" == accept_header:      
+    elif "application/json" == accept_header:
         return similars
-    
+
+
 @v2.post("/reviews/", response_model=_schemas.DBReview)
 async def add_review(
-    new_review: _schemas.ReviewAdd,
-    db: _orm.Session = _fastapi.Depends(_services.get_db)
+        new_review: _schemas.ReviewAdd,
+        db: _orm.Session = _fastapi.Depends(_services.get_db)
 ):
     """Ajouter une review à la BDD.
     
@@ -217,11 +216,11 @@ async def add_review(
     Returns:
         Review: la review ajoutée à la BDD
     """
-    
+
     # Ajout de la review dans la BDD
     review = _services.add_movie_review(
         db=db,
         review=new_review
     )
-    
+
     return review
