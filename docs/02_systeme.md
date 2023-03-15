@@ -66,7 +66,12 @@ On récupère l'information des utilisateurs grâces aux avis ( :+1: et :-1: ), 
 où le label dépend de l'avis de l'utilisateur. Nous avons arbitrairement choisi de fixer les labels suivants : 
 - :+1: = 0.4
 - :-1: = 1.6 <br>
-Ces valeurs ont été choisi après observation des données, pour que les labels aient des valeurs légérement en dessus et en dessous des maximum et des minimums du calcul de la distance cosinus. 
+Ces valeurs ont été choisi après observation des données, pour que les labels aient des valeurs légérement en dessus et en dessous des maximum et des minimums du calcul de la distance cosinus.
 
->[!Warning]
-> explication de l'automatisation
+### Automatisation du processus
+
+Dans notre cas, il est favorable d'automatiser le lancement du fine tuning.
+Pour ce faire nous avons simplement utiliser le module time pour créer un décorateur qui impose une condition au lancement de la fonction de finetuning :
+Si la fonction de finetuning a déjà été lancée il y a moins d'une semaine, alors rien ne se passe, sinon, le fine tuning est lancé l'ancien modèle archivé et les nouveaux embeddings générés.
+
+Pour l'instant les anciens modèles sont automatiquement archivés, mais cette méthode ne sera plus utilisée telle quelle par la suite, les modèles étant trop volumineux pour que cela fonctionne à long terme.
