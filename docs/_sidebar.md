@@ -5,3 +5,4 @@
 * [**Interface**](/03_interface.md)
 * [**Evaluation**](/04_evaluation.md)
 * [**Methodologie**](/05_methodologie.md)
+* [**Methodologie**](/06_pistes_futures.md)
