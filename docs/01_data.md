@@ -1,5 +1,8 @@
 # Data
 
+Les données proviennent du Movie Synopsis Dataset de LINGGAR MARETVA CENDANI.
+Elles sont disponible sur Kaggle. https://www.kaggle.com/datasets/linggarmaretva/movie-synopsis-dataset
+
 ## Source
 
 
