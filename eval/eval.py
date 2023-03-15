@@ -5,6 +5,7 @@ import pandas as pd
 import sys
 from os import path
 import os
+from datetime import date
 
 # Ajout du chemin des modules utilisés
 sys.path.append('../app')
@@ -103,6 +104,7 @@ def eval_v2(style : str,queries: pd.DataFrame, model: SentenceTransformer, model
             for res in suggestions:
                 print(res, file=f)
 
+
         # Vérification de la présence de l'oeuvre cible dans les recommandations
         if title in suggestions:
             score+=1
@@ -122,7 +124,8 @@ def main():
 
     for model, name, embeddings in models:
         for k, df in dfs.items():
-            with open(f"scores_{name}.txt", "w") as scoref:
+            with open(f"scores_{name}.txt", "a") as scoref:
+                print(f"____________________{date.today()}____________________")
                 print(f"Score obtenu sur les synopsis de type {k} : {eval_v2(k, df, model, name, embeddings)}", file = scoref)
 
 if __name__ == '__main__':
