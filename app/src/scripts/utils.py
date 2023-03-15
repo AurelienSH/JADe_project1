@@ -68,5 +68,5 @@ def check_time(duration: int =604800, repeat : bool = False):
 
 # Exemple de définition de fonction avec le décorateur check_time
 # @check_time(duration = 180)
-# def example(stuff):
-#    print(stuff)
+# def example(prout):
+#    print(prout)
