@@ -50,7 +50,6 @@ def check_time(duration: int =604800, repeat : bool = False):
     """
     def inter_check_time(func):
         def wrapper_check_time(*args, **kwargs):
-            print(args, kwargs)
             if path.exists(f".times_{func.__name__}"):
                 with open(f".times_{func.__name__}", "r") as f:
                     then = float(f.readlines()[-1].strip())
