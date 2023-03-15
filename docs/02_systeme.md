@@ -1,28 +1,26 @@
-# Système 
+# Système : Behind the Scenes of the API
 
-Cette section décrit le système utiliser pour faire foncitonner :clapper: *SynSearch*
+Cette section décrit le système utilisé pour faire foncitonner :clapper: *SynSearch*.
 
-utilisation des sentences transformers pour créer des embeddings de documents (exploration de doc2vec et classification également)
-
-Toutes les informations utilisées proviennent de [Hugging Face :hugs:](https://huggingface.co/) et de [SBERT](https://www.sbert.net/index.html).
+Toutes les données utilisées proviennent de [Hugging Face](https://huggingface.co/) :hugs: et de [SBERT](https://www.sbert.net/index.html).
 
 ## Modèle choisi 
 
-Nous avons choisi d'utiliser des Sentences Transformers pour avoir une représentation en vecteur de nos données. Plus précisément, nous avons choisi le modèle **[all-MiniLM-L12-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L12-v2)**. Le choix de se modèle s'est fait de façon un aléatoire, nous n'avons pas défini de critère de selection. 
+Nous avons choisi d'utiliser des Sentences Transformers pour avoir une représentation en vecteur de nos données. Plus précisément, nous avons choisi le modèle [`all-MiniLM-L12-v2`](https://huggingface.co/sentence-transformers/all-MiniLM-L12-v2). Dans le cadre de :clapper: *SynSearch* et des délais impartis, les écarts de performance entre les différents modèles est totalement négligeable. Nous avons donc simplement choisi le premier que nous avons trouvé et qui était beaucoup utilisé. 
 
-Une fois le modèle choisi, nous l'avons utiliser pour encoder nos documents textuelles, pour en avoir une représentation numérique (sous forme de vecteur). 
+Nous avons choisi d'utiliser des Sentences Transformers car ces transformers sont une référence dans l'état de l'art pour les embeddings de documents. De plus, ils sont faciles à utiliser et rapide à fine-tuner. Pour voir les autres options que l'on a envisagé, c'est par [là](05_methodologie.md#pour-le-système). 
 
-Nous avons utiliser le même modèle pour encoder la requête de l'utilisateur.
+Une fois le modèle choisi, nous l'avons utilisé pour encoder nos documents textuelles (les synopsis) pour en avoir une représentation numérique (sous forme de vecteur). Nous avons utilisé le même modèle pour encoder la requête de l'utilisateur.
 
-Cela permet ainsi de calculer la distance (cosinus) entre la requête d'un utilisateur et le synopsis d'un film. Plus la distance est faible (c'est à dire se rapproche de 0), plus la requête et le synopsis sont proches. 
+Cela permet de calculer la distance cosinus entre la requête d'un utilisateur et le synopsis d'un film. Plus la distance est faible, plus la requête et le synopsis sont proches. Ainsi, on suggère les cinq films les plus proches de la requête à l'utilisateur. 
 
-Ainsi, on suggère les cinq films les plus proches de la requête à l'utilisateur. 
+>[!note]
+>Notre API implémente la distance cosinus mais il serait également possible d'utiliser la distance euclidienne, ou tout autre distance.
 
-Nous avons choisi d'utiliser des Sentences Transformers car ces transformers sont une référence dans l'état de l'art pour les embeddings de documents. De plus, ils sont faciles à utiliser, et rapide à fine-tuner. Pour voir les autres options que l'on a envisagé, c'est par [là](methodologie.md#pour-le-système)
-
-## Fine tuning 
+## Finetuning 
  
-Plusieurs pistes pour le fine-tuning étaient possibles, mais elles demandaient toutes un autre format de données que celui que nous avions. Nous avons retenus deux fonctions de pertes pour fine-tuner notre modèle :
+Plusieurs pistes pour le finetuning étaient possibles. Toutefois, elles demandaient toutes un autre format de données que celui que nous avions. Nous avons retenus deux fonctions de pertes pour fine-tuner notre modèle :
+
 - La Triplet Loss
 - La Cosinus Similarity Loss
 
@@ -37,7 +35,7 @@ Les requêtes des utilisateurs ne sont pas vraiment semblables au synopsis de fi
 Ici, *Anchor* correspond à un synopsis, *Positiv* à une requête correspondant au synopsis et *Negativ* une requete ne correspondant pas au synopsis. 
 Ainsi, on peut fine-tuner notre modèle pour que le format des requêtes des utilisateurs soit pris en compte par le modèle lors du calcul de similarité. 
 
-Pour avoir ce format de dataset, nous avons [augmenté manuellement nos données](data.md#augmentation-manuelle--queries). 
+Pour avoir ce format de dataset, nous avons [augmenté manuellement nos données](01_data.md#augmentation-manuelle--queries). 
 
 Voici un exemple de données obtenues :
 
@@ -64,8 +62,8 @@ On récupère l'information des utilisateurs grâces aux avis ( :+1: et :-1: ), 
 ```
 
 où le label dépend de l'avis de l'utilisateur. Nous avons arbitrairement choisi de fixer les labels suivants : 
-- :+1: = 0.4
-- :-1: = 1.6 <br>
+- :+1: = 0.2
+- :-1: = 1.5 <br>
 Ces valeurs ont été choisi après observation des données, pour que les labels aient des valeurs légérement en dessus et en dessous des maximum et des minimums du calcul de la distance cosinus.
 
 ### Automatisation du processus

@@ -27,5 +27,5 @@ Le corpus augmenté manuellement se trouve dans le dossier `Data/movie_synopsis_
 
 ### Augmentation automatique
 
-L'augmentation automatique des données n'a pas encore été réussie. Cela est dû à un problème de performance de nos machines : elles n'étaient pas assez puissantes pour lancer nos scripts, en tout cas avec un temps raisonnable de calcul. Néanmoins, les traces de notre travail se trouvent dans la section [mettre la bonne section ici](05_methodologie.md#pour-les-données-et-leur-augmentation)
+L'augmentation automatique des données n'a pas encore été réussie. Cela est dû à un problème de performance de nos machines : elles n'étaient pas assez puissantes pour lancer nos scripts, en tout cas avec un temps raisonnable de calcul. Néanmoins, les traces de notre travail se trouvent dans la section "[Pistes futures](06_pistes_futures.md)"
 
