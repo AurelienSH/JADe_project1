@@ -1,0 +1,3 @@
+Score obtenu sur les synopsis de type descriptions : 0.2222222222222222
+Score obtenu sur les synopsis de type synopsis : 0.5263157894736842
+Score obtenu sur les synopsis de type queries : 0.47058823529411764
