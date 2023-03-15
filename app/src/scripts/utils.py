@@ -21,7 +21,7 @@ def get_new_name(filename: str, folder_path: str):
 
     # Génération du numéro de version
     files = os.listdir(folder_path)
-    id = sorted(files, key=lambda x: int(x.split("_")[1:]), reverse=True)[0]
+    id = int(sorted(files, key=lambda x: int(x.split("_")[-1][1:]), reverse=True)[0].split("_")[-1][1:])+1
 
     # Condition dans le cas ou un utilisateur utiliserait le formattage d'arborescence de windows
     if "\\" in folder_path:
@@ -48,10 +48,14 @@ def check_time(duration: int =604800, repeat : bool = False):
         duration (int) : temps en seconde jusqu'à l'autorisation à une prochaine éxecution
         repeat (bool) : si True, remettra le timer à jour automatiquement après chaque éxecution de la fonction
     """
-    def inter_check_time(*args, **kwargs):
-        def wrapper_check_time(func):
-            with open(f".times_{func.__name__}", "r") as f:
-                then = float(f.readlines()[-1].strip())
+    def inter_check_time(func):
+        def wrapper_check_time(*args, **kwargs):
+            print(args, kwargs)
+            if path.exists(f".times_{func.__name__}"):
+                with open(f".times_{func.__name__}", "r") as f:
+                    then = float(f.readlines()[-1].strip())
+            else:
+                then = 0
             now = time.time()
             time_since = now - then
             if time_since >= duration:

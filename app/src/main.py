@@ -81,7 +81,7 @@ with open(f"{embeddings_path}/embeddings_FT_corpus_movie", "rb") as file:
     embeddings_FT_corpus_movie = pickle.load(file)
 
 # Finetuning hebdomadaire
-finetune_model(db=_fastapi.Depends(_services.get_db), model=model_FT, model_path=models_path)
+finetune_model(model=model_FT, model_path=models_path)
 
 
 ####################################################################

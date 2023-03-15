@@ -103,6 +103,7 @@ def get_data_for_FT(db: _orm.Session) -> List[InputExample]:
 
     # Création des objet InputExample servant à entraîner le modèle à partir des données de la BDD
     for synopsis, query, score in db.query(_models.Review.synopsis, _models.Review.query, _models.Review.score).all():
+        print(score)
         train_examples.append(
             InputExample(texts=[synopsis, query],
                          label=score2label[score])

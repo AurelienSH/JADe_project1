@@ -4,7 +4,7 @@
   "do_lower_case": true,
   "mask_token": "[MASK]",
   "model_max_length": 512,
-  "name_or_path": "C:\\Users\\aengp/.cache\\torch\\sentence_transformers\\sentence-transformers_all-MiniLM-L6-v2\\",
+  "name_or_path": "../models/sentence_similarity_model_FT\\",
   "never_split": null,
   "pad_token": "[PAD]",
   "sep_token": "[SEP]",

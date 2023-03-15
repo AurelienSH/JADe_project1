@@ -1,5 +1,5 @@
 {
-  "_name_or_path": "C:\\Users\\aengp/.cache\\torch\\sentence_transformers\\sentence-transformers_all-MiniLM-L6-v2\\",
+  "_name_or_path": "../models/sentence_similarity_model_FT\\",
   "architectures": [
     "BertModel"
   ],

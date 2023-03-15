@@ -46,22 +46,19 @@ The model was trained with the parameters:
 
 **DataLoader**:
 
-`torch.utils.data.dataloader.DataLoader` of length 49 with parameters:
+`torch.utils.data.dataloader.DataLoader` of length 1 with parameters:
 ```
-{'batch_size': 1, 'sampler': 'torch.utils.data.sampler.RandomSampler', 'batch_sampler': 'torch.utils.data.sampler.BatchSampler'}
+{'batch_size': 16, 'sampler': 'torch.utils.data.sampler.RandomSampler', 'batch_sampler': 'torch.utils.data.sampler.BatchSampler'}
 ```
 
 **Loss**:
 
-`sentence_transformers.losses.TripletLoss.TripletLoss` with parameters:
-  ```
-  {'distance_metric': 'TripletDistanceMetric.EUCLIDEAN', 'triplet_margin': 5}
-  ```
+`sentence_transformers.losses.CosineSimilarityLoss.CosineSimilarityLoss` 
 
 Parameters of the fit()-Method:
 ```
 {
-    "epochs": 10,
+    "epochs": 3,
     "evaluation_steps": 0,
     "evaluator": "NoneType",
     "max_grad_norm": 1,
@@ -71,7 +68,7 @@ Parameters of the fit()-Method:
     },
     "scheduler": "WarmupLinear",
     "steps_per_epoch": null,
-    "warmup_steps": 10000,
+    "warmup_steps": 100,
     "weight_decay": 0.01
 }
 ```

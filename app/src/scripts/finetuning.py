@@ -2,6 +2,7 @@ import sqlalchemy.orm as _orm
 import services as _services
 
 import pickle
+import database as _database
 
 from sentence_transformers import SentenceTransformer, SentencesDataset, InputExample, losses
 from torch.utils.data import DataLoader
@@ -14,7 +15,7 @@ from rich.panel import Panel
 
 
 @check_time(repeat = True)
-def finetune_model(db: _orm.Session, model, model_path):
+def finetune_model(model, model_path):
     console = Console()
 
     # Un joli print
@@ -29,6 +30,7 @@ def finetune_model(db: _orm.Session, model, model_path):
     console.print(panel)
     # Récupération des données de la BDD
     # Et mise en forme dans le bon format pour l'entraînement
+    db = _database.SessionLocal()
     train_examples = _services.get_data_for_FT(db=db)
     train_dataset = SentencesDataset(train_examples, model)
 
