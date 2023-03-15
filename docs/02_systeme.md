@@ -37,7 +37,7 @@ Les requêtes des utilisateurs ne sont pas vraiment semblables au synopsis de fi
 Ici, *Anchor* correspond à un synopsis, *Positiv* à une requête correspondant au synopsis et *Negativ* une requete ne correspondant pas au synopsis. 
 Ainsi, on peut fine-tuner notre modèle pour que le format des requêtes des utilisateurs soit pris en compte par le modèle lors du calcul de similarité. 
 
-Pour avoir ce format de dataset, nous avons [augmenté manuellement nos données](data.md#augmentation-manuelle--queries). 
+Pour avoir ce format de dataset, nous avons [augmenté manuellement nos données](data.md#augmentation-manuelle). 
 
 Voici un exemple de données obtenues :
 
