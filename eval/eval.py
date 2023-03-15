@@ -60,4 +60,3 @@ if __name__ == '__main__':
 
     for line in get_most_similar(sys.argv[1]):
         print(line)
-
