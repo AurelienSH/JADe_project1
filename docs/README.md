@@ -19,9 +19,19 @@ Ce document a pour but d'expliquer notre projet :
 - :chart_with_upwards_trend: [Décortiquer les résultats de notre système](04_evaluation.md) :chart_with_upwards_trend:
 - :male_detective: [En savoir plus sur notre manière de travailler](05_methodologie.md) :male_detective:
 
-## Tutorials
+## Quick start
 
-Fonctionnement de l'API 
+```bash
+git clone https://github.com/AurelienSH/JADe_project1
+cd JADe_project1
+pip install -U -r requirements.txt # Installation des dépendances
+
+# Lancement de l'API
+cd app/src
+uvicorn main:app
+```
+
+Puis aller sur <http://127.0.0.1:8000/front/index.html> :rocket:
 
 ## Auteurs
 

@@ -51,7 +51,7 @@ app
 │   ├── main.py
 │   ├── models.py  # Définition des tables de la BDD et des colonnes
 │   ├── schemas.py  # Modèles Pydantic pour la data validation
-│   └── services.py  # Accéder à la BDD
+│   └── services.py  # Accéder à la BDD (CRUD)
 ├── static  # Fichiers static pour l'interface graphique
 │   ├── LICENSE.txt
 │   ├── README.txt
@@ -65,6 +65,18 @@ app
 └── templates  # Templates Jinja 
     └── result_table.html.jinja
 ```
+
+### Déroulement du fonctionnement de l'API
+
+L'API est lancée à partir de `app/src/main.py`. Lors du lancement, la BDD est créée (`app/src/database.py`) et les modèles et les embeddings du corpus sont chargés. Un finetuning hebdomadaire se fait automatiquement. 
+
+A chaque lancement de l'API, il y a donc une vérification, grâce au script `app/src/scripts/utils.py` de si le finetuning est nécessaire. Si oui, il est lancé grâce au script `app/src/scripts/finetuning.py`. 
+
+Lorsqu'une requête de recherche de films similaires est faite ([endpoint `/similar-works/`](03_interface.md#endpoint-similar-works)), le script `app/src/scripts/similarity.py` est appelé.
+
+Lorsqu'une review est ajoutée ([endpoint `/reviews/`](03_interface.md#endpoint-reviews)), elle est ajoutée à la BDD grâce au script `app/src/services.py`. Ce dernier contient toutes les fonctions CRUD. 
+
+Le script `app/src/schemas.py` contient la définition des modèles Pydantic pour la validation du format des données. Le script `app/src/models.py` quant à lui contient la définition des tables et des colonnes de la BDD. 
 
 ### Déroulement du fonctionnement de l'interface graphique
 
