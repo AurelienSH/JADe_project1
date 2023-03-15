@@ -6,10 +6,15 @@
 
 L'idée était ici d'augmenter les données en traduisant les synopsis dans une langue cible pour ensuite les traduire à nouveau dans la langue source.
 Les modèles que nous avons trouvé n'ont pas donné des résultats assez différents des synopsis originaux pour justifier le coût en énergie et en temps.
+Il serait intéressant de voir d'autres options permettant de le faire de façon plus raisonnable et/ou efficace.
 
 #### Summarization
 
-Nous avions songé à augmenter les 
+Nous avions songé à augmenter les données en partant d'une bdd de la partie "Plot" et "Summary" de tous les articles wikipedia en possédant et en finetunant un générateur de résumé automatique qui partirait de la concaténation des données de wikipédia vers nos synopsis.
+Le but était ici de pouvoir réellement générer des synopsis automatiquement à partir des résumés, les résumés étant plus nombreux on aurait donc une plus large quantité de donnée.
+De la meme façon nous avions penser à le faire à partir des oeuvres entières.
+Il serait d'ailleurs intéressant d'imaginer les embeddings générables à partir de cette tâche également.
+Encore une fois, il n'a pas été possible de l'implémenter pour l'instant, dû à des machines trop peu performantes pour donner des résultats utilisables qui pourrait générer autre chose que du bruit.
 
 ### Pour le système
 
