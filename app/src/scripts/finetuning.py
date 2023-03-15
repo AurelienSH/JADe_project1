@@ -6,13 +6,14 @@ import pickle
 from sentence_transformers import SentenceTransformer, SentencesDataset, InputExample, losses
 from torch.utils.data import DataLoader
 from scripts.preprocessing import make_embeddings_corpus, read_corpus
-from scripts.utils import check_time, set_timer, stash, get_new_name
+from scripts.utils import check_time, set_timer, get_new_name
+from shutil import move
 
 from rich.console import Console
 from rich.panel import Panel
 
 
-@check_time
+@check_time(repeat = True)
 def finetune_model(db: _orm.Session, model, model_path):
     console = Console()
 
@@ -35,7 +36,7 @@ def finetune_model(db: _orm.Session, model, model_path):
     train_loss = losses.CosineSimilarityLoss(model)
 
     archived_model = get_new_name("sentence_similarity_model_FT", "../models/archive")
-    stash(f"{model_path}/sentence_similarity_model_FT", archived_model)
+    move(f"{model_path}/sentence_similarity_model_FT", archived_model)
 
     # Entrainement du modèle
     model.fit(train_objectives=[(train_dataloader, train_loss)],
@@ -53,21 +54,6 @@ def finetune_model(db: _orm.Session, model, model_path):
     with open("../embeddings/embeddings_FT_corpus_movie", "wb") as embeddings_file:
         pickle.dump(embeddings_FT_corpus_movie, file=embeddings_file)
 
-    set_timer()
-
     return {
         "message": "modèle fine-tuné"
     }
-
-
-if __name__ == "__main__":
-    console = Console()
-
-    # Un joli print
-    panel = Panel.fit(
-        f"[bold magenta]Fine-tuning ...[/bold magenta]",
-        title="[bold white]FINE-TUNING STARTED[/bold white]",
-        border_style="bold white",
-        box=box.ROUNDED,
-        padding=(1, 2),
-    )
