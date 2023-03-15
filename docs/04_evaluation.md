@@ -2,7 +2,7 @@
 
 ## Quantitative
 
-(où trouver le script).
+Script et données : `JADe_project1/eval`
 
 Pour un premier essai d'évaluation, nous avons songé à utiliser la même méthodolige qu'utilise Doc2Vec : Nous avons cherché à savoir si le document le plus proche d'un document cible était lui même. 
 

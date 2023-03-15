@@ -75,3 +75,5 @@ Pour ce faire nous avons simplement utiliser le module time pour créer un déco
 Si la fonction de finetuning a déjà été lancée il y a moins d'une semaine, alors rien ne se passe, sinon, le fine tuning est lancé l'ancien modèle archivé et les nouveaux embeddings générés.
 
 Pour l'instant les anciens modèles sont automatiquement archivés, mais cette méthode ne sera plus utilisée telle quelle par la suite, les modèles étant trop volumineux pour que cela fonctionne à long terme.
+
+Les fonctions d'automatisation peuvent etre retrouvées ici : `JADe_project/app/src/scripts/utils.py`
