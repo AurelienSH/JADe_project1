@@ -1,4 +1,4 @@
-# Interface
+# :spider_web: Interface :spider_web:
 
 :clapper: Synsearch a été construit à l'aide de FastAPI. 
 
