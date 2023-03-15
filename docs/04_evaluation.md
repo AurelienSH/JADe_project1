@@ -18,14 +18,24 @@ Les trois styles que nous avons choisi d’évaluer sont les suivants :
 
 Description :
 Une description détaillée d’un film sans se préoccuper de la forme
+exemple : "A movie in which we follow a life's guy though the good and the bad moment. The guy has a very busy life, doing a lot of new stuff and living a lot of adventure. He lives during the big moment of the United States. There is a love story though the entire movie but the guy never get the girl."
+
 
 Queries :
 Une demande en langage naturel comme on pourrait la formuler à un interlocuteur 
+exemple : "i'm looking for a movie about a girl pretending to be a man so she can replace her father in the army. the reason she's doing this is because her father is very sick and she was afraid he wouldn't come back in one piece. china is saved thanks to her, even thought when they discovered she wasn't a girl, people thought she was a liability."
+
 
 Synopsis :
 Un court texte rédigé dans le style de ce que l’on pourrait trouver à l’arrière d’une VHS
+exemple : "A young man is having a hard time chosing is allegiances. His mentor will try and help him during the ongoing war, but it will be hard for him to choose. In the end will he be able to make the right sacrifices ?"
 
 Voilà un tableau des scores obtenus :
+
+|      | Description | Queries | Synopsis |
+|------|-------------|---------|----------|
+| noFT | 0.22        | 0.47    | 0.47     |
+| FT   | 0.22        | 0.47    | 0.52     |
 
 Sur de très courts exemples, c’est assez rassurant de déjà voir un peu d’amélioration, qui plus est dans le style qui correspond le plus à l’ambition du projet.
 Il sera intéressant de voir la manière dont ces scores pourraient évoluer après plusieurs fine tuning sur des données réelles.
