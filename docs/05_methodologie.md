@@ -25,11 +25,17 @@ Le travail effectué pour le fonctionnement du système se trouve dans le notebo
 
 #### Back Translation
 
+L'idée était ici de générer plus 
+
 #### Summarization
 
 ### Pour le système
 
 #### Classification avec BERT
+
+Nous avons envisagé à un moment d'utiliser un système de classification pour générer les recommandations. L'idée était d'entrainer un classifieur basé sur un transformer (tel que BERT) afin d'essayer de classer des synopsis en titre de film. 
+L'idée étant ensuite de ne pas espérer que le classifieur réussise à classer les films, la tâche étant de donner une liste de recommandation, il aurait été intéressant de voir ce que le classifieur aurait pu générer.
+Ce qui paraissait intéressant ici était l'idée que le classifieur pourrait se baser sur des mesures plus intéressantes qu'un  calcul de distance. Malheureusement notre seul essai n'a pas encore pu aboutir à un modèle dû à un entraînement trop coûteux.
 
 #### Doc2Vec
 
