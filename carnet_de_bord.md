@@ -87,10 +87,10 @@ On peut cocher au fur et à mesure les choses qu'on a faites et rajouter des tâ
     - [x] Double fine-tuned ? Transfer learning
     - [ ] évaluation ?
     - [x] Faire un notebook pour tester
-- [ ] Continuer le travail sur doc2vec 
+- [x] Continuer le travail sur doc2vec : **finalement, on n'a pas choisi cette option**
 - [x] Notebook pour la prépratation du dataset dans le format attendu du module `transformers`
 - [x] Baseline : faire une tâche de similarité 
-- [ ] Autre manière : classification 
+- [ ] Autre manière : classification -> Aurelien.
     - [ ] genre
     - [ ] par film
 - [x] Ecrire une petite liste de synopsis inventés pour l'évaluation qualitative
@@ -379,6 +379,11 @@ Synopsis à tester :
     
     On peut aussi juste faire appel à des APIs extérieur.
     :::
+ 
+#### Julie 
+
+- publication sur github de `Sentence_Similarity.ipynb. Ce notebook est une première version de notre système. On utilise les Sentences Transformers pour transformer les synopsis en embedding, et ensuite on calcule la distance cosinus pour trouver les paires les plus proches d'un synopsis / d'une requête donnée. 
+- Maintenant, il faut trouver comment fine-tuner ce transformers. 
 
 ### :calendar: 26/02/2023
 
@@ -404,7 +409,7 @@ Synopsis à tester :
 :::warning
 :exclamation: :exclamation: D'ici le RDV avec Grobol : 
 
-- Julie : continuer de chercher sur comment fine-tuner
+- Julie : continuer de chercher sur comment fine-tuner -> discussions
 - Aurélien : 
     - chercher comment faire la classification, notamment avec un truc plus basique qu'un transformer
     - recherche sur "sonder réseau de neurones"
@@ -426,6 +431,15 @@ Synopsis à tester :
     - :new: [BRANCHE `versionAPI`] Dans la `v1`, j'ai implémenté le truc de `sentence_similarity`
         - :warning: C'est un peu cra-cra. Ca renvoie une liste de dictionnaires. Encore une fois, aucune idée de si c'est équivalent à du JSON (voir 19/02/2023)
         - Maintenant pour accéder à la docs de la version 1, il faut aller sur : http://localhost:8000/api/v1/docs.
+
+### :calendar: 28/02/2023
+
+#### Julie
+
+- Ecriture d'un notebook avec d'autres manières de calculer la similarité entre nos documents `Autre_Sentence_Similarity.ipynb`
+	- KNN
+	- distance euclidienne
+- Recherche comment Fine-Tuner le modèle
 
 ### :calendar: 01/03/2023
 
@@ -475,7 +489,15 @@ https://huggingface.co/blog/carbon-emissions-on-the-hub
 - :new: J'ai fait un notebook (`test/FR_summarizer.ipynb`) pour fine-tuner sur `imdb_wiki_corpus` le modèle mT5 pour la tâche de summarization. J'ai suivi ce [tuto](https://huggingface.co/course/chapter7/5?fw=pt). Je l'ai pas encore lancé parce que ça va prendre longtemps mais ça a l'air de marcher parce que quand j'ai commencé à le lancer, ça m'a bien créé le truc sur huggingface et sur mon pc.
 - :warning: J'ai voulu créé le dataset augmenté par backtranslation sauf que j'ai fait un test sur 3 oeuvres et vraiment, les synopsis générés sont quasi-identifiques à un mot près à chaque fois.
 
-### :calendar: 07/09/2023
+### :calendar: 06/03/2023
+
+#### Julie
+
+- Fine tuning de notre Sentence Transformers de deux manières :
+1. utilisation de la triplet loss : j'ai augmenté les données manuellement en créant des requêtes associées aux synopsis (50). J'ai ensuite utilisé le triplet synopsis, requete associée, requete non associé, pour fine-tuner le transformers.
+2. crowdsourcing : il est possible d'utiliser les avis des utilsiateurs pour fine-tuner notre modèle (niveau de statisfaction). -> écriture du code qui sera implémenter plus tard.
+
+### :calendar: 07/03/2023
 
 #### Réunion
 
@@ -550,6 +572,8 @@ Objectifs pour le 08/03/2023:
     - Mise en place des différentes pages avec les liens
     - Initialisation de docsify 
     - Publication du site avec GitHub Page
+- écriture de synopsis pour l'évaluation du système
+- trier les scripts utilisés pour l'utilisation des transformers / pour les différents tests des pistes envisagées pour les ajouter plus tard au github.
 
 ### :calendar: 12/03/2023
 
@@ -571,7 +595,7 @@ Objectifs pour le 08/03/2023:
 
 #### Den
 
-- Nettoyage gloabl des scripts
+- Nettoyage global des scripts
 - Ecriture des queries pour l'évaluation qualitative
 - Ajout du lien vers la documentation sur l'interface graphique de l'API
 - Modification du footer de `index.html` pour mettre nos noms
@@ -597,10 +621,10 @@ Objectifs pour le 08/03/2023:
 
 Tâches à finir : 
 
-- [ ] Lier le hackMD au git
+- [x] Lier le hackMD au git
 - [ ] sélectionner quelques bons trucs pour mettre dans l'onglet "demo" de l'interface graphique
 - [ ] nettoyer le requirements.txt
-- [ ] on a fait une baseline avec glove/word2vec????? **NON**
+- [x] on a fait une baseline avec glove/word2vec????? **NON**
 - [ ] Commenter et faire la docstring des scripts : 
     - [ ] `utils.py`
     - [ ] `finetuning.py`
