@@ -216,6 +216,11 @@ async def add_review(
     Returns:
         Review: la review ajoutée à la BDD
     """
+    
+    # Si l'utilisateur a mis une mauvaise valeur de "score"
+    if new_review.score != "pos" and new_review.score != "neg":
+        raise _fastapi.HTTPException(status_code=400, detail="Attribute score must be either 'pos' or 'neg'")
+        
 
     # Ajout de la review dans la BDD
     review = _services.add_movie_review(
