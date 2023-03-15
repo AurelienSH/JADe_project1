@@ -1,5 +1,12 @@
 # **SYNSEARCH**
 
+---
+
+- Code source : <https://github.com/AurelienSH/JADe_project1>
+- Documentation : <https://github.com/AurelienSH/JADe_project1/tree/main/docs>
+- Changelog : <https://hackmd.io/13aKsikiTVmVB0Kd4qSuYw?both>
+---
+
 ## Présentation 
 
 :clapper: *SynSearch* est le résultat d'un projet mené par l'équipe **JADe** dans le cadre de deux cours du Master TAL (UPN, Paris Sorbonne-Nouvelle, Inalco) :
@@ -42,5 +49,10 @@ SynSearch est possible grâce au travail de l'équipe **JADe**, composée de :
 
 Contactez nous si vous avez la moindre question ! 
 
-## Version 
+## Versions
 
+- V1 : Utilisation du modèle non-finetuné
+- V2 : Utilisation du modèle finetuné
+
+>[!note]
+>L'interface graphique de l'API utilise la V2.

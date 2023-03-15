@@ -40,3 +40,7 @@ Ce qui paraissait intéressant ici était l'idée que le classifieur pourrait se
 #### Doc2Vec
 
 Nous avons considéré, au début, d'utiliser Doc2Vec pour obtenir les embeddings de nos documents. Néanmoins, nous avons préféré l'option des Sentences Transformers car nous pouvions les personnaliser avec le finetuning. Un tutoriel sur le fonctionnement de Doc2Vec est disponible dans le dossier `system_test/demo_transformers_and_doc2vec.ipynb`
+
+## Autres
+
+Certains mots, lorsqu'ils sont présents dans une requête (ex : "love"), renvoient systatiquement les mêmes films. Nous ne pensons pas que cela restera un problème si on augmente les données. Cependant, avec le peu de données que nous avons, il serait intéressant d'introduire un peu d'aléatoire.
