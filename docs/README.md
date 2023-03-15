@@ -3,7 +3,7 @@
 ---
 
 - Code source : <https://github.com/AurelienSH/JADe_project1>
-- Documentation : <https://github.com/AurelienSH/JADe_project1/tree/main/docs>
+- Documentation : <https://aureliensh.github.io/JADe_project1/#/>
 - Changelog : <https://hackmd.io/13aKsikiTVmVB0Kd4qSuYw?both>
 ---
 
