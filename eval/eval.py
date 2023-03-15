@@ -122,7 +122,7 @@ def main():
 
     for model, name, embeddings in models:
         for k, df in dfs.items():
-            with open(f"scores_{name}.txt") as scoref:
+            with open(f"scores_{name}.txt", "w") as scoref:
                 print(f"Score obtenu sur les synopsis de type {k} : {eval_v2(k, df, model, name, embeddings)}", file = scoref)
 
 if __name__ == '__main__':
