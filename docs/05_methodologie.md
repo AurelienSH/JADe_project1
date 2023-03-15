@@ -17,34 +17,4 @@ Delphine a mis en place un document [*hack.md*](https://hackmd.io/13aKsikiTVmVB0
 
 -> citer les documents à retrouver dans le github comme trace du travail. 
 
-Le travail effectué pour le fonctionnement du système se trouve dans le notebook `system_test`/`Sentence_Similarity_test.ipynb`. Ce notebook contient les différentes fonctions utilisées pour faire fonctionner le système. Ce notebook contient également plusieurs tests sur le calcul de similarité (avec la distance euclidienne et les KNN). Nous avons gardé uniquement la distance cosinus dans notre projet. 
-
-## Les autres pistes envisagées 
-
-### Pour les données et leur augmentation
-
-#### Back Translation
-
-L'idée était ici de générer plus 
-
-#### Summarization
-
-### Pour le système
-
-#### Classification avec BERT
-
-Nous avons envisagé à un moment d'utiliser un système de classification pour générer les recommandations. L'idée était d'entrainer un classifieur basé sur un transformer (tel que BERT) afin d'essayer de classer des synopsis en titre de film. 
-L'idée étant ensuite de ne pas espérer que le classifieur réussise à classer les films, la tâche étant de donner une liste de recommandation, il aurait été intéressant de voir ce que le classifieur aurait pu générer.
-Ce qui paraissait intéressant ici était l'idée que le classifieur pourrait se baser sur des mesures plus intéressantes qu'un  calcul de distance. Malheureusement notre seul essai n'a pas encore pu aboutir à un modèle dû à un entraînement trop coûteux.
-
-#### Doc2Vec
-
-Nous avons considéré, au début, d'utiliser Doc2Vec pour obtenir les embeddings de nos documents. Néanmoins, nous avons préféré l'option des Sentences Transformers car nous pouvions les personnaliser avec le fine-tuning. Un tutoriel sur le fonctionnement de Doc2Vec est disponible dans le dossier `system_test` : `demo_transformers_and_doc2vec.ipynb`
-
-####
-
-## Et après ? 
-
-On pourrait envisager d'enrichir encore la base de donnée de nouveaux synopsis, et de faire fonctionner l'augmentation automatique de données. 
-
-De plus, pour le moment, notre corpus est exclusivement en anglais. Il pourrait être envisageable d'en faire un système multilingue. 
+Le travail effectué pour le fonctionnement du système se trouve dans le notebook `system_test`/`Sentence_Similarity_test.ipynb`. Ce notebook contient les différentes fonctions utilisées pour faire fonctionner le système. Ce notebook contient également plusieurs tests sur le calcul de similarité (avec la distance euclidienne et les KNN). Nous avons gardé uniquement la distance cosinus dans notre projet.
