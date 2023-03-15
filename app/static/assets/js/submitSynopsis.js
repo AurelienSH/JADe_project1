@@ -5,6 +5,8 @@ document.querySelector("#inputForm").onsubmit = async (event) => {
     const form = event.target
     
     // Récupération de ce qu'on a écrit dans le formulaire
+    // Et mise en forme dans le bon format pour la requête à l'API
+    // (Objet Query)
     const data = {
         content: form.querySelector("#synopsis").value,
     }
@@ -22,9 +24,9 @@ document.querySelector("#inputForm").onsubmit = async (event) => {
         }
         )
 
-    // récupération du résultat de la requête
+    // Récupération du résultat de la requête
     const result = await response.text() // read response body as text
 
-    // écriture du résultat dans la div avec l'ID "result"
+    // Ecriture du résultat dans la div avec l'ID "result"
     document.querySelector("#result").innerHTML = result
 }

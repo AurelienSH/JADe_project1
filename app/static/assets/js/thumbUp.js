@@ -1,3 +1,5 @@
+// Script pour ajouter une review à la BDD depuis l'interface graphique
+
 function clickThumbButtons(button_id, isThumbUp) {
 
   // Sélection du bouton thumb-up/down cliqué
@@ -10,8 +12,7 @@ function clickThumbButtons(button_id, isThumbUp) {
   // Changement des couleurs des pouces
   updateThumbColor(isThumbUp, row_number);
 
-  // Récupération des valeurs pour la suppression ou l'ajout du synopsis à la BDD
-
+  // Récupération de la valeur de "score" selon si c'est un thumb-up ou thumb-down
   let score;
   if (isThumbUp) { // Review positive
       score = "pos";
@@ -20,7 +21,7 @@ function clickThumbButtons(button_id, isThumbUp) {
       score = "neg";
   }
 
-  // Modèle Pydantic pour l'ajout d'une review
+  // Schéma Pydantic "ReviewAdd" pour l'ajout d'une review
   const review =  {
     "title": document.getElementById(`title-result-${row_number}`).innerText,
     "synopsis": document.getElementById(`content-result-${row_number}`).innerText,
