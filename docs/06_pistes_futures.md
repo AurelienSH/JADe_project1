@@ -1,8 +1,8 @@
 ## Les autres pistes envisagées 
 
-### Pour les données et leur augmentation
+### L'augmentation des données
 
-#### Back Translation
+#### Backtranslation
 
 L'idée était ici d'augmenter les données en traduisant les synopsis dans une langue cible pour ensuite les traduire à nouveau dans la langue source.
 Les modèles que nous avons trouvé n'ont pas donné des résultats assez différents des synopsis originaux pour justifier le coût en énergie et en temps.
